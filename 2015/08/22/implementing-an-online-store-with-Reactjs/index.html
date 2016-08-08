@@ -1,0 +1,413 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Woodpig&#39;s Blog">
+    <title>用React实现一个在线商城，小结（1） - Woodpig&#39;s Blog</title>
+    <meta name="author" content="Kate Wu">
+    
+    
+    <meta name="description" content="这阵子在看Reactjs，正好之前有个电商项目的经历，我就想何不即学即用，用react去实现在线商城展示，分类查找筛选，加入购物车功能。这篇博文写出来的时候，项目的主要部分已经完成，放在github上，欢迎大家参观。
+准备知识一般建议从官方文档开始。facebook建立react的官网，貌似提供无比详尽的资料，不过大部分官方技术文档的特性之一就是，各知识点的组织方式并不一定适合初学者上手。如果你翻">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="用React实现一个在线商城，小结（1）">
+<meta property="og:url" content="http://woodpig07.github.io/2015/08/22/implementing-an-online-store-with-Reactjs/index.html">
+<meta property="og:site_name" content="Woodpig's Blog">
+<meta property="og:description" content="这阵子在看Reactjs，正好之前有个电商项目的经历，我就想何不即学即用，用react去实现在线商城展示，分类查找筛选，加入购物车功能。这篇博文写出来的时候，项目的主要部分已经完成，放在github上，欢迎大家参观。
+准备知识一般建议从官方文档开始。facebook建立react的官网，貌似提供无比详尽的资料，不过大部分官方技术文档的特性之一就是，各知识点的组织方式并不一定适合初学者上手。如果你翻">
+<meta property="og:updated_time" content="2016-08-08T13:52:37.021Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用React实现一个在线商城，小结（1）">
+<meta name="twitter:description" content="这阵子在看Reactjs，正好之前有个电商项目的经历，我就想何不即学即用，用react去实现在线商城展示，分类查找筛选，加入购物车功能。这篇博文写出来的时候，项目的主要部分已经完成，放在github上，欢迎大家参观。
+准备知识一般建议从官方文档开始。facebook建立react的官网，貌似提供无比详尽的资料，不过大部分官方技术文档的特性之一就是，各知识点的组织方式并不一定适合初学者上手。如果你翻">
+    
+    
+    
+    
+        <meta property="og:image" content="/2015/08/22/implementing-an-online-store-with-Reactjs/react.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://woodpig07.github.io/2015/08/22/implementing-an-online-store-with-Reactjs/react.png" />
+    
+    
+        <meta property="og:image" content="/2015/08/22/implementing-an-online-store-with-Reactjs/reactjs-logo.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://woodpig07.github.io/2015/08/22/implementing-an-online-store-with-Reactjs/reactjs-logo.jpg" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style.min.css">
+    <!--STYLES END-->
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Woodpig&#39;s Blog</a>
+    </h1>
+    
+</header>
+            <nav id="sidebar" data-behavior="4">
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archive</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-center
+                    post-header-cover--partial"
+             style="background-image:url('/2015/08/22/implementing-an-online-store-with-Reactjs/reactjs-logo.jpg');"
+             data-behavior="4">
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaOut
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title" itemprop="headline">
+            用React实现一个在线商城，小结（1）
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Sat Aug 22 2015 15:44:45 GMT+0800">
+	
+		    Aug 22, 2015
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/web-development/">web development</a>, <a class="category-link" href="/categories/web-development/javascript/">javascript</a>
+
+
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>这阵子在看Reactjs，正好之前有个电商项目的经历，我就想何不即学即用，用react去实现在线商城展示，分类查找筛选，加入购物车功能。这篇博文写出来的时候，项目的主要部分已经完成，放在github上，欢迎大家<a href="https://github.com/woodpig07/react-flux-shop" target="_blank" rel="external">参观</a>。</p>
+<h2 id="准备知识"><a href="#准备知识" class="headerlink" title="准备知识"></a>准备知识</h2><p>一般建议从<a href="http://facebook.github.io/react/docs/getting-started.html" target="_blank" rel="external">官方文档</a>开始。<br>facebook建立react的官网，貌似提供无比详尽的资料，不过大部分官方技术文档的特性之一就是，各知识点的组织方式并不一定适合初学者上手。如果你翻了几遍tutuial还是云里雾里，无法下手，我建议还是多找几篇网友写的几篇比较人性化的入门指导文章。<br>个人推荐：<br><a href="http://tylermcginnis.com/reactjs-tutorial-a-comprehensive-guide-to-building-apps-with-react/" target="_blank" rel="external">A Comprehensive Guide to Building Apps with React.js</a><br>和react有关的重要概念是flux，这里指的不是一个库或者框架，而是facebook提出来的一种组织react component应用的架构，基本上稍微复杂的react应用都会涉及。<br>官网上对此的介绍太理论话，还是直接看提供的<a href="https://facebook.github.io/flux/docs/todo-list.html" target="_blank" rel="external">样例</a>开始理解。或者看这篇网友写的指导<a href="https://www.codementor.io/reactjs/tutorial/react-js-flux-architecture-tutorial" target="_blank" rel="external">Creating a Simple Application Using React JS and Flux Architecture</a></p>
+<p>react大热之后，常常被人拿出来和angularjs比较，其中一个较普遍的观点是react比angular容易学。想当年我学angularjs，是至少两个月中正儿八经翻了一本半angular的学习书籍才敢开始琢磨写实际项目的事。<br>也许是这一年的前端学习和磨炼让我更加自信，于是我花了两个星期的业余时间看了指导资料后开始投入开发。</p>
+<h2 id="建立架构和工作流程"><a href="#建立架构和工作流程" class="headerlink" title="建立架构和工作流程"></a>建立架构和工作流程</h2><p>原有的项目涉及到coffeescript, stylus, jade, gulp, 我对这几个语言和工程化工具已经用的相当顺手，而且这个项目的目的在于运用reactjs，为了避免不必要学习成本，不会去找其他的替代品。<br>原先的项目缺少一个模块化管理和打包工具，这次我选择了browserify，即是因为我最近上手browserify有一段时间，也是因为某个reactjs tutorial里介绍的gulp和browserify整合方法。<br>另外很多reactjs相关文章推荐webpack，说是更适合reactjs里component开发的模式，但这东西貌似是走大而全路线的，学会熟悉配置也需时间，还是下次有机会再关注吧。<br>关于coffeescript还有一个小曲折，因为react里component的html模板使用JSX语法，需要编译工具转换为js，本来在gulp工作流里，gulp-reactify插件就很容易解决这事，用coffee的话，也有插件方便的转换coffee-react(cjsx文件）。但是如果一起由gulp-browserify开始,这些方案都缺少一环，都行不通。最开始这个问题弄得我焦头烂额，差点放弃coffee，最后找的一个方案救了我：watchify + browserify(非gulp插件） + coffee_reactify<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Compile coffeescript and transform jsx</span></div><div class="line"></div><div class="line">gulp.task <span class="string">"jsCompile"</span>, <span class="function">-&gt;</span></div><div class="line"></div><div class="line">  watcher = watchify browserify</div><div class="line">    entries: [config.src + <span class="string">"coffeescript/main.coffee"</span>]</div><div class="line">    transform: [coffee_reactify]</div><div class="line">    <span class="comment"># de<span class="doctag">bug:</span> true</span></div><div class="line"><span class="function"></span></div><div class="line">  <span class="title">rebundle</span> = -&gt;</div><div class="line">    watcher</div><div class="line">    .bundle()</div><div class="line">    .<span class="literal">on</span> <span class="string">"error"</span>, handleErrors</div><div class="line">    .pipe plumber()</div><div class="line">    .pipe source(<span class="string">"main.js"</span>)</div><div class="line">    .pipe gulpif config.production, streamify(uglify())</div><div class="line">    .pipe gulpif config.production, rename(<span class="string">"main.min.js"</span>)</div><div class="line">    .pipe gulp.dest config.build + <span class="string">"scripts"</span></div><div class="line"></div><div class="line">  watcher</div><div class="line">  .<span class="literal">on</span> <span class="string">"update"</span>, <span class="function">-&gt;</span></div><div class="line">    <span class="built_in">console</span>.log <span class="string">"browserify starting..."</span></div><div class="line">    rebundle()</div><div class="line">    <span class="built_in">console</span>.log <span class="string">"browserify updated!"</span></div><div class="line"></div><div class="line">  <span class="comment"># initial bundle when this task starts</span></div><div class="line">  rebundle()</div></pre></td></tr></table></figure></p>
+<p>其中还有个小问题还没有想明白，就是如果我打开了browserify的debug模式，最后编译的文件会在末尾生产一大堆无意义的乱码，占据了差不多一半的文件大小，关掉debug就没事。</p>
+<p>gulp流程搭建好后，剩下的是把原有项目中相关的stylus，jade，coffee文件剥离出来，还好原来的模块化做的不错，这部分很快完成了。</p>
+<h2 id="从React-Component开始"><a href="#从React-Component开始" class="headerlink" title="从React Component开始"></a>从React Component开始</h2><p>React是以component 为单元开发，这样也给项目迁移带来便利，我可以挑某个小部分开始动手改造，暂时先不考虑全局。<br>第一步，我选的是商品展示(brand collection）页面的product listing这一块。product数据我用的是localStorage来生产mock data。基本上一个ProductList作为parent component,一个product作为child component就可以搞定了。<br>在React中，parent component和child component之间的数据传递直观而简单。这部分知识几乎在每一篇入门指导文章中都作出示例演示，官方文档也有专门的资料。<br><a href="http://facebook.github.io/react/docs/multiple-components.html" target="_blank" rel="external">Multiple components</a><br><a href="http://facebook.github.io/react/tips/communicate-between-components.html" target="_blank" rel="external">Communicate between components</a></p>
+<p>但如果没有parent/child关系，事情就开始复杂起来了。例如当我开始改造全部商品展示页面左边的排序选项，选中的排序条件必须要传递到右边的product list来让其重新渲染，这时候就必须引入flux了。<br>理解flux架构是我在学习react的过程中花费时间更多的，主要是理清action, store, dispatcher, component之间的关系。也是因为官方flux实现的理解难度，有一些react社区开发者提出了替代方案，比如<a href="https://github.com/reflux/refluxjs" target="_blank" rel="external">reflux</a>,<a href="https://github.com/fdecampredon/rx-flux" target="_blank" rel="external">rx-flux</a>，雅虎团队还给出了一个衍生物<a href="https://github.com/yahoo/fluxible" target="_blank" rel="external">fluxible</a>。从初学者的角度，我觉得还是先熟悉flux之后再说。</p>
+<h2 id="React-router"><a href="#React-router" class="headerlink" title="React-router"></a>React-router</h2><p>做完商品展示页面基本功能，下一步我考虑的是加上单个商品的详细页product details。既然是一个单页应用，那么就需要一个router的功能。大而全的spa框架如angularjs有提供ngRoute，react官方显然没有这种便利，但同时也给了社区参与者大展身手的机会。我选择了很多react社区人员都推荐的react-router。<br>仿造官网上的示例，brand collection和product details两部分的分页很快就设置好了。<br>截取样例代码如下：<br><figure class="highlight pf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">routes =</div><div class="line">  <span class="variable">&lt;Route handler=&#123;main&#125;&gt;</span></div><div class="line">    <span class="variable">&lt;Route name="brandCollection" path="/" handler=&#123;brandCollection&#125; /&gt;</span></div><div class="line">    <span class="variable">&lt;Route name="productDetails" path="/product/:id" handler=&#123;productDetails&#125; /&gt;</span></div><div class="line">  &lt;/Route&gt;</div><div class="line"></div><div class="line"></div><div class="line">ReactRouter.run routes, ReactRouter.HashLocation, (Root, <span class="keyword">state</span>) -&gt;</div><div class="line">  name = <span class="keyword">state</span>.path</div><div class="line">  <span class="keyword">default</span>ID = <span class="string">"brand-collection"</span></div><div class="line">  if name.indexOf(<span class="string">"/product"</span>) is <span class="number">0</span></div><div class="line">    <span class="keyword">default</span>ID = <span class="string">"product-details"</span></div><div class="line"></div><div class="line">  React.render <span class="variable">&lt;Root pageID=&#123;defaultID&#125; /&gt;</span>, document.getElementById <span class="string">"app-container"</span></div></pre></td></tr></table></figure></p>
+<p>其中的main是brand collection,product details的父级container，在这一块需要指定一个router内容变换的区域，就是所谓的routehandler。例如：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Main = React<span class="selector-class">.createClass</span></div><div class="line"></div><div class="line">  getDefaultProps: -&gt;</div><div class="line">    pageID: <span class="string">"brand-collection"</span></div><div class="line"></div><div class="line">  render: -&gt; </div><div class="line">    return  &lt;<span class="selector-tag">div</span> className=<span class="string">"page"</span> id=&#123;this<span class="selector-class">.props</span><span class="selector-class">.pageID</span>&#125;&gt;</div><div class="line"></div><div class="line">                &lt;RouteHandler /&gt;</div><div class="line"></div><div class="line">              &lt;/div&gt;</div><div class="line">            &lt;/div&gt;</div></pre></td></tr></table></figure></p>
+<p>值得一提的是，我需要在分页变化时候，为了配合原有的样式，main这一层级元素的id也需要随着变化，react-router虽然提供了分页的路径参数，但传递自定义参数并不是很方便。最后我只能根据路径参数的变化来判断需要传递的id，并以react component props的形式传递。</p>
+<hr>
+<p>下文 <a href="/2015/08/29/%E7%94%A8React%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%9C%A8%E7%BA%BF%E5%95%86%E5%9F%8E%EF%BC%8C%E5%B0%8F%E7%BB%93%EF%BC%882%EF%BC%89/">用React实现一个在线商城，小结（1）</a></p>
+
+            
+                
+
+            
+        </div>
+    </div>
+    <div class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/javascript/">javascript</a> <a class="tag tag--primary tag--small t-link" href="/tags/reactjs/">reactjs</a> <a class="tag tag--primary tag--small t-link" href="/tags/webapp/">webapp</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/08/29/implementing-an-online-store-with-Reactjs-summary-2/"  data-tooltip="用React实现一个在线商城，小结（2）">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/08/22/hello-world/" data-tooltip="Hello World">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://woodpig07.github.io/2015/08/22/implementing-an-online-store-with-Reactjs/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://woodpig07.github.io/2015/08/22/implementing-an-online-store-with-Reactjs/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://woodpig07.github.io/2015/08/22/implementing-an-online-store-with-Reactjs/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 Kate Wu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/08/29/implementing-an-online-store-with-Reactjs-summary-2/"  data-tooltip="用React实现一个在线商城，小结（2）">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/08/22/hello-world/" data-tooltip="Hello World">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://woodpig07.github.io/2015/08/22/implementing-an-online-store-with-Reactjs/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://woodpig07.github.io/2015/08/22/implementing-an-online-store-with-Reactjs/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://woodpig07.github.io/2015/08/22/implementing-an-online-store-with-Reactjs/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://woodpig07.github.io/2015/08/22/implementing-an-online-store-with-Reactjs/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://woodpig07.github.io/2015/08/22/implementing-an-online-store-with-Reactjs/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://woodpig07.github.io/2015/08/22/implementing-an-online-store-with-Reactjs/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Kate Wu</h4>
+        
+            <h5 id="about-card-bio"><p>author.bio</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </h5>
+        
+        
+    </div>
+</div>
+
+        <div id="cover" style="background-image:url('http://res.cloudinary.com/tranquilpeak-hexo-theme/image/upload/v1438975482/v1.3.0-cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script.min.js"></script>
+<!--SCRIPTS END-->
+
+
+
+</html>

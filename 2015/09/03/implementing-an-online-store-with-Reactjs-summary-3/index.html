@@ -1,0 +1,406 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Woodpig&#39;s Blog">
+    <title>用React实现一个在线商城，小结（3） - Woodpig&#39;s Blog</title>
+    <meta name="author" content="Kate Wu">
+    
+    
+    <meta name="description" content="接上用React实现一个在线商城，小结（2）
+
+继续说坑的事在掌握React component基本思路，理清flux架构，趟过之前提到的两个坑后，开发出商品展示，排序，筛选后，继续开发购物清单的增加和删改就是效率很高的事。到了业务逻辑开发工作基本完成的阶段，我开始考虑如何在React里使用动画效果。React官方提供了使用CSS3动画的addon - ReactCSSTransitionGrou">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="用React实现一个在线商城，小结（3）">
+<meta property="og:url" content="http://woodpig07.github.io/2015/09/03/implementing-an-online-store-with-Reactjs-summary-3/index.html">
+<meta property="og:site_name" content="Woodpig's Blog">
+<meta property="og:description" content="接上用React实现一个在线商城，小结（2）
+
+继续说坑的事在掌握React component基本思路，理清flux架构，趟过之前提到的两个坑后，开发出商品展示，排序，筛选后，继续开发购物清单的增加和删改就是效率很高的事。到了业务逻辑开发工作基本完成的阶段，我开始考虑如何在React里使用动画效果。React官方提供了使用CSS3动画的addon - ReactCSSTransitionGrou">
+<meta property="og:updated_time" content="2016-08-08T13:52:37.021Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用React实现一个在线商城，小结（3）">
+<meta name="twitter:description" content="接上用React实现一个在线商城，小结（2）
+
+继续说坑的事在掌握React component基本思路，理清flux架构，趟过之前提到的两个坑后，开发出商品展示，排序，筛选后，继续开发购物清单的增加和删改就是效率很高的事。到了业务逻辑开发工作基本完成的阶段，我开始考虑如何在React里使用动画效果。React官方提供了使用CSS3动画的addon - ReactCSSTransitionGrou">
+    
+    
+    
+    
+        <meta property="og:image" content="/2015/09/03/implementing-an-online-store-with-Reactjs-summary-3/react.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://woodpig07.github.io/2015/09/03/implementing-an-online-store-with-Reactjs-summary-3/react.png" />
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style.min.css">
+    <!--STYLES END-->
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Woodpig&#39;s Blog</a>
+    </h1>
+    
+</header>
+            <nav id="sidebar" data-behavior="4">
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archive</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            用React实现一个在线商城，小结（3）
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Thu Sep 03 2015 17:21:56 GMT+0800">
+	
+		    Sep 03, 2015
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/web-development/">web development</a>, <a class="category-link" href="/categories/web-development/javascript/">javascript</a>
+
+
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>接上<a href="/2015/08/29/implementing-a-online-store-with-Reactjs-summary-2//">用React实现一个在线商城，小结（2）</a></p>
+<hr>
+<h2 id="继续说坑的事"><a href="#继续说坑的事" class="headerlink" title="继续说坑的事"></a>继续说坑的事</h2><p>在掌握React component基本思路，理清flux架构，趟过之前提到的两个坑后，开发出商品展示，排序，筛选后，继续开发购物清单的增加和删改就是效率很高的事。到了业务逻辑开发工作基本完成的阶段，我开始考虑如何在React里使用动画效果。<br>React官方提供了使用CSS3动画的addon - <a href="http://facebook.github.io/react/docs/animation.html" target="_blank" rel="external">ReactCSSTransitionGroup</a>,类似与Angularjs的思路，就是给需要动画效果的component加上标识不同状态的CSS class，剩下由开发者填充动画样式代码。<br>按照官网文档给的示例，我把ProductList里的product部分用<code>ReactCSSTransitionGroup</code>包裹起来，而且因为我只需要在筛选list的时候，单个product出现是显示动画，被移除时候无动画，我还加了<code>transitionLeave={false}</code><br><figure class="highlight dust"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="xml"># 部分productList代码</span></div><div class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">"products"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">ReactCSSTransitionGroup</span> <span class="attr">transitionName</span>=<span class="string">"product"</span> <span class="attr">transitionLeave</span>=</span><span class="template-variable">&#123;false&#125;</span><span class="xml"><span class="tag">&gt;</span></span></div><div class="line">              <span class="template-variable">&#123;items&#125;</span><span class="xml"></span></div><div class="line">            <span class="tag">&lt;/<span class="name">ReactCSSTransitionGroup</span>&gt;</span></div><div class="line">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 部分stylus代码</span></div><div class="line"><span class="selector-class">.product-enter</span></div><div class="line">  <span class="attribute">opacity</span>  <span class="number">0</span></div><div class="line">  </div><div class="line">  &amp;<span class="selector-class">.product-enter-active</span></div><div class="line">    <span class="attribute">opacity</span>   <span class="number">1</span></div><div class="line">    <span class="attribute">transition</span>  opacity <span class="number">300ms</span> ease-in</div></pre></td></tr></table></figure>
+<p>马上问题来了，第一次刷新时加载product确实有渐进出现的动画，但改变筛选条件后，应该被移除的product仍旧在那里！我试着去掉<code>transitionLeave={false}</code>，加上product移除时候的opacity从1变0动画，这时理应被移除的product倒是被移除了，但移除瞬间不到一秒的闪退动画效果十分扎眼，并不是我想要的。也试过把移除动画的transition-time设为0,统统都会产生应该消失的product持续留在渲染区里。<br>Google上一搜，才知ReactCSSTransitionGroup的坑爹bug很多人遇到过<br><a href="https://github.com/facebook/react/issues/1707" target="_blank" rel="external">ReactCSSTransitionGroup leaves DOM nodes with both <code>leave</code> and <code>enter</code> classes</a><br><a href="https://github.com/facebook/react/issues/1326" target="_blank" rel="external">CSSTransitionGroup buggy due to transition events not firing reliably</a></p>
+<p>究其原因大概就是ReactCSSTransitionGroup使用transitionend事件来判断component动画是否完成，完成后再从DOM中删除component。但是浏览器的transitionend事件很不可靠，很多情况下都不触发，导致该删除的component依然存在与DOM里。<br>在这里吐嘲一下，关于ReactCSSTransitionGroup的bug在14年3月报出后，直到我写这个项目的15年8月份，官方一直没有解决，也许官方觉得动画这个功能太无足轻重？倒是社区开发者提出了可靠的加强方案<a href="https://github.com/Khan/react-components/blob/master/js/timeout-transition-group.jsx" target="_blank" rel="external">TimeoutTransitionGroup</a>。<br><code>TimeoutTransitionGroup</code>的原理是用人为定义的timeout来决定什么后动画完成移除component，比如说我需要product只显示300毫秒的出现动画，无移除动画，可以如下设置：<br><figure class="highlight dust"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">"products"</span>&gt;</span></span></div><div class="line">  <span class="tag">&lt;<span class="name">TimeoutTransitionGroup</span> <span class="attr">transitionName</span>=<span class="string">"product"</span> <span class="attr">enterTimeout</span>=</span><span class="template-variable">&#123;300&#125;</span><span class="xml"><span class="tag"> <span class="attr">leaveTimeout</span>=</span></span><span class="template-variable">&#123;0&#125;</span><span class="xml"><span class="tag">&gt;</span></span></div><div class="line">    <span class="template-variable">&#123;items&#125;</span><span class="xml"></span></div><div class="line">  <span class="tag">&lt;/<span class="name">TimeoutTransitionGroup</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h2 id="与旧有模块结合使用"><a href="#与旧有模块结合使用" class="headerlink" title="与旧有模块结合使用"></a>与旧有模块结合使用</h2><p>象Angularjs这种早先流行的框架，被人诟病的缺点之一是它很难与第三方库配合使用。而作为后起之秀的Reactjs自称的卖点之一即是容易和第三方库结合。但从官方给出的<a href="http://facebook.github.io/react/tips/use-react-with-other-libraries.html" target="_blank" rel="external">示例</a>来说，我认为容易度还是打了折扣。<br>按照官方指导，如果你想用react的方式写一个类似bootstrap框架里的Tooltip, accordion menu, 你还是得在<code>componentDidMount</code> 或者<code>componentDidUpdate</code>引入第三库（如jQuery）的方法，如果是需要注册event listener，为了避免内存泄漏，你还得在<code>componentWillUnmount</code>做一些清理工作。<br>有的时候迁移一个项目到react，你会希望能够利用react做它擅长的事，同时也能重复利用原有的成熟模块。例如我有一个现成的Expandable Menu是用jQuery写的，复用性良好。<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># coffeescript代码</span></div><div class="line"><span class="comment"># 省略了方法细节</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExpandableMenu</span></span></div><div class="line">   defaults = &#123;&#125;</div><div class="line"></div><div class="line">  constructor: <span class="function"><span class="params">(@selector, options)</span>-&gt;</span></div><div class="line">    @options = $.extend <span class="literal">true</span>, &#123;&#125;, defaults, options</div><div class="line">    @selector.<span class="literal">on</span> <span class="string">'click'</span>, <span class="string">'.expandable &gt; .title'</span>, @onClickHeader</div><div class="line">    @selector.<span class="literal">on</span> <span class="string">'click'</span>, <span class="string">'.expandable .expandable-close'</span>, @onClickClose</div><div class="line"></div><div class="line"></div><div class="line">  onClickHeader: <span class="function"><span class="params">(click)</span>=&gt;</span></div><div class="line">	<span class="comment"># 打开menu的handler</span></div><div class="line"></div><div class="line">  onClickClose: <span class="function"><span class="params">(click)</span>=&gt;</span></div><div class="line">	<span class="comment"># 关闭menu的handler</span></div><div class="line"></div><div class="line">  toggleContent: <span class="function"><span class="params">(el)</span>=&gt;</span></div><div class="line"></div><div class="line">    </div><div class="line">  isExpanded: <span class="function"><span class="params">(el)</span>-&gt;</span></div><div class="line"></div><div class="line"></div><div class="line">  expand: <span class="function"><span class="params">(el)</span>-&gt;</span></div><div class="line"></div><div class="line"></div><div class="line">  collapse: <span class="function"><span class="params">(el)</span>-&gt;</span></div><div class="line"></div><div class="line"></div><div class="line">  collapseOthers: <span class="function"><span class="params">(el)</span>-&gt;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="built_in">global</span>.Expand = ExpandableMenu</div></pre></td></tr></table></figure></p>
+<p>用传统的方式，我这样初始化一个Expandable menu<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> menu = <span class="keyword">new</span> Expand($(<span class="string">".menu-class-name"</span>));</div></pre></td></tr></table></figure></p>
+<p>但在为了把它改造成react component，貌似我必须如此：<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 用React.findDOMNode来实现expand，collapse逻辑...</span></div><div class="line"></div><div class="line"> componentDidMount: <span class="function">-&gt;</span></div><div class="line"></div><div class="line">   <span class="comment"># 在这里添加click的event listener</span></div><div class="line"></div><div class="line"> componentWillUnmount: <span class="function">-&gt;</span></div><div class="line"></div><div class="line">   <span class="comment"># 在这里移除event listener</span></div><div class="line"></div><div class="line">...</div><div class="line"></div><div class="line">render: <span class="function">-&gt;</span></div><div class="line">	<span class="comment"># 在这里设好ref</span></div></pre></td></tr></table></figure></p>
+<p>于是我想，这里其实我最需要解决的是移除event listener的问题，那么在原有模块里增加一个移除的方法就好了：<br><figure class="highlight delphi"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">destructor</span>:</span> (el)-&gt;</div><div class="line">  <span class="keyword">if</span> !el?</div><div class="line">    el = @selector</div><div class="line">  <span class="keyword">else</span></div><div class="line">    <span class="keyword">if</span> typeof el.jquery != <span class="string">'undefined'</span></div><div class="line">      el = $ el</div><div class="line">  el.off()</div></pre></td></tr></table></figure></p>
+<p>如此以来，我可以直接在<code>componentDidMoun</code>里初始化class，在<code>componentWillUnmount</code>里做销毁：<br><figure class="highlight http"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">componentDidMount</span>: -&gt;</div><div class="line"></div><div class="line"><span class="stylus">  window<span class="selector-class">.expandableListCategories</span> = new Expand $(<span class="string">".xxxx"</span>)</span></div><div class="line"></div><div class="line">componentWillUnmount: -&gt;</div><div class="line"></div><div class="line">  window<span class="selector-class">.expandableListCategories</span><span class="selector-class">.destructor</span>()</div></pre></td></tr></table></figure></p>
+<p>其他无需再多一行代码，岂不妙哉～</p>
+<h2 id="小结的总结"><a href="#小结的总结" class="headerlink" title="小结的总结"></a>小结的总结</h2><p>项目做到现在的阶段，虽然还只是一个试图用reactjs改造传统电商网站的粗浅尝试，但也遇到了一些一般reactjs入门介绍文章鲜少提到的挑战，在此分享一点个人的实践经验，纯当抛砖引玉了。</p>
+<p>我在2014年末感觉到前端圈里开始越来越多的提到Reactjs，似乎大家都为它在性能方面的提升而兴奋惊讶。大半年之后我终于有兴趣和精力去学习实践这一个年轻框架，确实它的思路相对其他成熟的流行框架非常新颖，对于需要频繁更新DOM内容的应用场景，性能和开发速度方面的优势也显而易见。<br>而且它和第三方库配合的易用性，它的上手容易度会吸引不少熟悉jQuery的前端开发人员。但个人感觉，毕竟reactjs还是有一定体量的框架，要在复杂的大型项目中吧reactjs的优势发挥到极致，还需要把依赖于jQuery那一部分功能做进一步精简。可以预见的是，未来reactjs的发展就靠这方面造轮子的速度和质量了。</p>
+
+            
+                
+
+            
+        </div>
+    </div>
+    <div class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/javascript/">javascript</a> <a class="tag tag--primary tag--small t-link" href="/tags/reactjs/">reactjs</a> <a class="tag tag--primary tag--small t-link" href="/tags/webapp/">webapp</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/09/28/a-tip-on-optimizing-scroll-or-resize-event/"  data-tooltip="优化scroll, resize事件的小方法">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/08/29/implementing-an-online-store-with-Reactjs-summary-2/" data-tooltip="用React实现一个在线商城，小结（2）">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://woodpig07.github.io/2015/09/03/implementing-an-online-store-with-Reactjs-summary-3/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://woodpig07.github.io/2015/09/03/implementing-an-online-store-with-Reactjs-summary-3/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://woodpig07.github.io/2015/09/03/implementing-an-online-store-with-Reactjs-summary-3/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 Kate Wu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/09/28/a-tip-on-optimizing-scroll-or-resize-event/"  data-tooltip="优化scroll, resize事件的小方法">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/08/29/implementing-an-online-store-with-Reactjs-summary-2/" data-tooltip="用React实现一个在线商城，小结（2）">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://woodpig07.github.io/2015/09/03/implementing-an-online-store-with-Reactjs-summary-3/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://woodpig07.github.io/2015/09/03/implementing-an-online-store-with-Reactjs-summary-3/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://woodpig07.github.io/2015/09/03/implementing-an-online-store-with-Reactjs-summary-3/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://woodpig07.github.io/2015/09/03/implementing-an-online-store-with-Reactjs-summary-3/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://woodpig07.github.io/2015/09/03/implementing-an-online-store-with-Reactjs-summary-3/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://woodpig07.github.io/2015/09/03/implementing-an-online-store-with-Reactjs-summary-3/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Kate Wu</h4>
+        
+            <h5 id="about-card-bio"><p>author.bio</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </h5>
+        
+        
+    </div>
+</div>
+
+        <div id="cover" style="background-image:url('http://res.cloudinary.com/tranquilpeak-hexo-theme/image/upload/v1438975482/v1.3.0-cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script.min.js"></script>
+<!--SCRIPTS END-->
+
+
+
+</html>

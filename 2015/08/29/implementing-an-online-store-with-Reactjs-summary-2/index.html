@@ -1,0 +1,414 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Woodpig&#39;s Blog">
+    <title>用React实现一个在线商城，小结（2） - Woodpig&#39;s Blog</title>
+    <meta name="author" content="Kate Wu">
+    
+    
+    <meta name="description" content="接上用React实现一个在线商城，小结（1）
+
+新手需要趟过的坑即使是刚开始照着各种例子教程上手reactjs，不可避免的都遇到以数组来动态渲染child component，以下这个例子截取自facebook官方tutorial1234567891011121314151617// tutorial10.jsvar CommentList = React.createClass(&amp;#123;">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="用React实现一个在线商城，小结（2）">
+<meta property="og:url" content="http://woodpig07.github.io/2015/08/29/implementing-an-online-store-with-Reactjs-summary-2/index.html">
+<meta property="og:site_name" content="Woodpig's Blog">
+<meta property="og:description" content="接上用React实现一个在线商城，小结（1）
+
+新手需要趟过的坑即使是刚开始照着各种例子教程上手reactjs，不可避免的都遇到以数组来动态渲染child component，以下这个例子截取自facebook官方tutorial1234567891011121314151617// tutorial10.jsvar CommentList = React.createClass(&amp;#123;">
+<meta property="og:image" content="http://woodpig07.github.io/project_image1.png">
+<meta property="og:updated_time" content="2016-08-08T13:52:36.929Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用React实现一个在线商城，小结（2）">
+<meta name="twitter:description" content="接上用React实现一个在线商城，小结（1）
+
+新手需要趟过的坑即使是刚开始照着各种例子教程上手reactjs，不可避免的都遇到以数组来动态渲染child component，以下这个例子截取自facebook官方tutorial1234567891011121314151617// tutorial10.jsvar CommentList = React.createClass(&amp;#123;">
+<meta name="twitter:image" content="http://woodpig07.github.io/project_image1.png">
+    
+    
+    
+    
+        <meta property="og:image" content="/2015/08/29/implementing-an-online-store-with-Reactjs-summary-2/react.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://woodpig07.github.io/2015/08/29/implementing-an-online-store-with-Reactjs-summary-2/react.png" />
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style.min.css">
+    <!--STYLES END-->
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Woodpig&#39;s Blog</a>
+    </h1>
+    
+</header>
+            <nav id="sidebar" data-behavior="4">
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archive</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            用React实现一个在线商城，小结（2）
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Sat Aug 29 2015 17:30:04 GMT+0800">
+	
+		    Aug 29, 2015
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/web-development/">web development</a>, <a class="category-link" href="/categories/web-development/javascript/">javascript</a>
+
+
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>接上<a href="/2015/08/29/implementing-a-online-store-with-Reactjs/">用React实现一个在线商城，小结（1）</a></p>
+<hr>
+<h2 id="新手需要趟过的坑"><a href="#新手需要趟过的坑" class="headerlink" title="新手需要趟过的坑"></a>新手需要趟过的坑</h2><p>即使是刚开始照着各种例子教程上手reactjs，不可避免的都遇到以数组来动态渲染child component，以下这个例子截取自facebook官方<a href="http://facebook.github.io/react/docs/tutorial.html" target="_blank" rel="external">tutorial</a><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// tutorial10.js</span></div><div class="line"><span class="keyword">var</span> CommentList = React.createClass(&#123;</div><div class="line">  render: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> commentNodes = <span class="keyword">this</span>.props.data.map(<span class="function"><span class="keyword">function</span> (<span class="params">comment</span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> (</div><div class="line">        <span class="xml"><span class="tag">&lt;<span class="name">Comment</span> <span class="attr">author</span>=<span class="string">&#123;comment.author&#125;</span>&gt;</span></span></div><div class="line">          &#123;comment.text&#125;</div><div class="line">        <span class="tag">&lt;/<span class="name">Comment</span>&gt;</span></div><div class="line">      );</div><div class="line">    &#125;);</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">"commentList"</span>&gt;</span></span></div><div class="line">        &#123;commentNodes&#125;</div><div class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>本项目中运用到这个方法的场景也非常多，例如商品展示区就是把获取到和product list数组在product parent compoent中渲染出来。<br>然而，当你打开你网页的dev tool，你会注意到在console这一栏赫然有一行warning:<br><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Each child <span class="keyword">in</span> <span class="keyword">an</span> array <span class="keyword">or</span> iterator should have <span class="keyword">a</span> unique <span class="string">"key"</span> prop. Check <span class="keyword">the</span> render method <span class="keyword">of</span> &lt;ProductParentComponent&gt;. See <span class="keyword">https</span>://fb.me/react-warning-<span class="built_in">keys</span> <span class="keyword">for</span> more information.</div></pre></td></tr></table></figure></p>
+<p>这时候如果你忽略这个警告，继续给商品展示区添加排序，筛选功能，逐渐会发现这些功能不会像你设想的那样渲染出准确的结果。原因就是这个key，官网文档<a href="http://facebook.github.io/react/docs/multiple-components.html#dynamic-children" target="_blank" rel="external">某处</a>有提到它的重要性:</p>
+<blockquote>
+<p>The situation gets more complicated when the children are shuffled around (as in search results) or if new components are added onto the front of the list (as in streams). In these cases where the identity and state of each child must be maintained across render passes, you can uniquely identify each child by assigning it a key:<br>When React reconciles the keyed children, it will ensure that any child with key will be reordered (instead of clobbered) or destroyed (instead of reused).</p>
+</blockquote>
+<p>我的理解是react会通过child component的key来识别parent component各种状态下是不是该重新排列或者销毁，所以key对于统一层级的child component必须是独一无二的。我曾实验过把故意把两个product component赋予相同的key，结果在渲染的时候，react只会显示其中一个。<br>以上文档还强调key必须在在包含child component数组的那个parent component里指定才会有作用。</p>
+<blockquote>
+<p>The key should always be supplied directly to the components in the array, not to the container HTML child of each component in the array:</p>
+</blockquote>
+<p>关于<strong>key的重要性</strong>不是所有react入门文章都会强调，在此提醒和我一样的新手。</p>
+<p>另外一个有可能遇到又比较微妙的坑是关于<strong>props和state</strong>的。用我自己笼统的通俗的话将，props是用来在component之间传递参数的，state是component内部记录状态的。我理解到的reactjs原理之一就是，如果某个component的props或者state发生变化，就会触发component的re-render，但是事实上没有这么简单。</p>
+<p>以我在商品展示区左边的分类功能为例，左上角部分把商品分为WINE, SPIRIT, BEER三大类，每一个类别下又分小类，点击每个小类的链接后，页面的url会随之改变，右边的商品部分会显示那一个小类别下的list，左边下侧的REFINE RESULT会按这个类别的商品里有的brand和其他标签来改变能够做筛选的label。<br><img src="project_image1.png" alt="project_image1"></p>
+<p>一开始，REFINE RESULT下面每个refine label group是这么写的<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">RefineGroup = React.createClass</div><div class="line">  <span class="comment"># 在coffeescript里"@"等于"this."</span></div><div class="line">  getInitialState: <span class="function">-&gt;</span></div><div class="line">    selectedItems: @props.selectedRefiners</div><div class="line">    itemList: @props.items</div><div class="line"></div><div class="line">  handleClick: <span class="function"><span class="params">(event)</span> -&gt;</span></div><div class="line">		<span class="comment"># 省略代码...</span></div><div class="line"></div><div class="line">  clearAll: <span class="function"><span class="params">(event)</span>-&gt;</span></div><div class="line">		<span class="comment"># 省略代码...</span></div><div class="line"></div><div class="line">  handleInput: <span class="function"><span class="params">(event)</span> -&gt;</span></div><div class="line">		<span class="comment"># 省略代码...</span></div><div class="line"></div><div class="line">  render: <span class="function">-&gt;</span></div><div class="line"></div><div class="line">    lists = @state.itemList.map (item, index) =&gt;</div><div class="line">      itemId = @props.category + index</div><div class="line"></div><div class="line">      <span class="keyword">return</span>  &lt;li className=<span class="string">"refine"</span> key=&#123;item&#125;&gt;&lt;label className=<span class="string">"cfe"</span>&gt;</div><div class="line">                &lt;input type=<span class="string">"checkbox"</span> value=&#123;item&#125; className=<span class="string">"cfe-styled"</span> id=&#123;itemId&#125; onChange=&#123;<span class="keyword">this</span>.handleClick&#125; checked=&#123;itemId <span class="keyword">of</span> @state.selectedItems &#125; /&gt;</div><div class="line">                &#123;item&#125;</div><div class="line">              &lt;/label&gt;&lt;/li&gt;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="keyword">return</span>  &lt;ul className=<span class="string">"submenu"</span>&gt;</div><div class="line">              &lt;div className=<span class="string">"searchbox"</span>&gt;</div><div class="line">                &lt;div className=<span class="string">"control-group search"</span>&gt;</div><div class="line">                  &lt;input type=<span class="string">"text"</span> className=<span class="string">"normal placeholder"</span> onChange=&#123;<span class="keyword">this</span>.handleInput&#125; placeholder=&#123;<span class="keyword">this</span>.props.category&#125; /&gt;</div><div class="line">                &lt;/div&gt;</div><div class="line">              &lt;/div&gt;</div><div class="line">              &#123;lists&#125;</div><div class="line">              &lt;a href=<span class="string">"#"</span> className=<span class="string">"title reverse clear-selection"</span> onClick=&#123;<span class="keyword">this</span>.clearAll&#125;&gt; clear selection &lt;/a&gt;</div><div class="line">            &lt;/ul&gt;</div></pre></td></tr></table></figure></p>
+<p>在其parent component里这个RefineGroup是这么写的：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">RefineGroup</span> <span class="attr">items</span>=<span class="string">&#123;items&#125;</span></span></div><div class="line">  <span class="attr">selectedRefiners</span>=<span class="string">&#123;this.state.selectedRefiners&#125;</span></div><div class="line">  <span class="attr">category</span>=<span class="string">&#123;prop&#125;</span></div><div class="line">  <span class="attr">categoryID</span>=<span class="string">&#123;prop&#125;</span></div><div class="line">  <span class="attr">key</span>=<span class="string">&#123;prop.id&#125;</span></div><div class="line">/&gt;</div></pre></td></tr></table></figure></p>
+<p>你可以看到，RefineGroup从props里拿到items（就是每个label下的标签清单）后，在render之前通过调用getInitialState()赋值给state.itemList，然后在render方法里用state.itemList来加工出最后要渲染出的内容。<br>马上我发现，只有第一次点击某个商品类别显示的REFINE RESULT里呈现正确的label group，之后点击其他商品类别，即使页面右边的商品list呈现正确的内容，refine label group就不会随着变化，除非你手动F5将页面刷新。这个现象说明要么RefineGroup的re-render没有被触发，要么触发了但发生了意外。<br>为了诊断问题，我在RefineGroup的render方面上加入console.log(this.props.items)，测试表明this.props.items确实是随着商品类别页变化而变化的，并且也会触发re-render，但不re-render不一定会触发getInitialState()，所以@state.itemList的内容不会变化。当然我可以把render方法里的@state.itemList换成@props.items来解决，不过这样一来就不能配合@handleInput()的变化来实现另外一个功能。<br>我在这个地方纠结了一段时间，直到我读到react component life cycle里的一个较少提及的方法componentWillReceiveProps，这个方法会在component接收到新props时候调用，正好是我需要在RefineGroup里定义的：<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">componentWillReceiveProps</span>: -&gt;</div><div class="line">  <span class="variable">@setState</span></div><div class="line">    <span class="attribute">itemList</span>: <span class="variable">@props</span>.items</div></pre></td></tr></table></figure></p>
+<p>短短三行代码，问题优雅的解决了。</p>
+<h2 id="官网某篇文档Props-in-getInitialState-Is-an-Anti-Pattern说在getInitialState-中使用props赋值的危险，除非只是用props来做state属性的初始化。我遇到这个场景正好是一个需要用props在getInitialState-中做状态初始化，又需要和props中对应值同步的例子。"><a href="#官网某篇文档Props-in-getInitialState-Is-an-Anti-Pattern说在getInitialState-中使用props赋值的危险，除非只是用props来做state属性的初始化。我遇到这个场景正好是一个需要用props在getInitialState-中做状态初始化，又需要和props中对应值同步的例子。" class="headerlink" title="官网某篇文档Props in getInitialState Is an Anti-Pattern说在getInitialState()中使用props赋值的危险，除非只是用props来做state属性的初始化。我遇到这个场景正好是一个需要用props在getInitialState()中做状态初始化，又需要和props中对应值同步的例子。"></a>官网某篇文档<a href="https://facebook.github.io/react/tips/props-in-getInitialState-as-anti-pattern.html" target="_blank" rel="external">Props in getInitialState Is an Anti-Pattern</a>说在getInitialState()中使用props赋值的危险，除非只是用props来做state属性的初始化。我遇到这个场景正好是一个需要用props在getInitialState()中做状态初始化，又需要和props中对应值同步的例子。</h2><p>下文 <a href="/2015/08/29/implementing-a-online-store-with-Reactjs-summary-3/">用React实现一个在线商城，小结（3）</a></p>
+
+            
+                
+
+            
+        </div>
+    </div>
+    <div class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/javascript/">javascript</a> <a class="tag tag--primary tag--small t-link" href="/tags/reactjs/">reactjs</a> <a class="tag tag--primary tag--small t-link" href="/tags/webapp/">webapp</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/09/03/implementing-an-online-store-with-Reactjs-summary-3/"  data-tooltip="用React实现一个在线商城，小结（3）">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/08/22/implementing-an-online-store-with-Reactjs/" data-tooltip="用React实现一个在线商城，小结（1）">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://woodpig07.github.io/2015/08/29/implementing-an-online-store-with-Reactjs-summary-2/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://woodpig07.github.io/2015/08/29/implementing-an-online-store-with-Reactjs-summary-2/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://woodpig07.github.io/2015/08/29/implementing-an-online-store-with-Reactjs-summary-2/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 Kate Wu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/09/03/implementing-an-online-store-with-Reactjs-summary-3/"  data-tooltip="用React实现一个在线商城，小结（3）">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/08/22/implementing-an-online-store-with-Reactjs/" data-tooltip="用React实现一个在线商城，小结（1）">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://woodpig07.github.io/2015/08/29/implementing-an-online-store-with-Reactjs-summary-2/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://woodpig07.github.io/2015/08/29/implementing-an-online-store-with-Reactjs-summary-2/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://woodpig07.github.io/2015/08/29/implementing-an-online-store-with-Reactjs-summary-2/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://woodpig07.github.io/2015/08/29/implementing-an-online-store-with-Reactjs-summary-2/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://woodpig07.github.io/2015/08/29/implementing-an-online-store-with-Reactjs-summary-2/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://woodpig07.github.io/2015/08/29/implementing-an-online-store-with-Reactjs-summary-2/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Kate Wu</h4>
+        
+            <h5 id="about-card-bio"><p>author.bio</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </h5>
+        
+        
+    </div>
+</div>
+
+        <div id="cover" style="background-image:url('http://res.cloudinary.com/tranquilpeak-hexo-theme/image/upload/v1438975482/v1.3.0-cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script.min.js"></script>
+<!--SCRIPTS END-->
+
+
+
+</html>

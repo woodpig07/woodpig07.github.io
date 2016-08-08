@@ -1,0 +1,428 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Woodpig&#39;s Blog">
+    <title>Javascript永远的Class争论 - Woodpig&#39;s Blog</title>
+    <meta name="author" content="Kate Wu">
+    
+    
+    <meta name="description" content="今年刚定稿的ECMAScript6(以下简称ES6)里，前所未有的引入了class的概念。我们都知道javascript从诞生之初就不是基于class的语言，但随着它越来越流行，使用者越来越多的过程中，关于如何用javascript进行面向对象编程(OOP)的理论也在实践中逐渐演化。特别是一些有其他后端语言（诸如java）背景的开发者，会倾向于推行模仿class类型继承的方法。比如汇集了各种jav">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Javascript永远的Class争论">
+<meta property="og:url" content="http://woodpig07.github.io/2015/10/25/the-never-ending-Class-debate-in-Javascript/index.html">
+<meta property="og:site_name" content="Woodpig's Blog">
+<meta property="og:description" content="今年刚定稿的ECMAScript6(以下简称ES6)里，前所未有的引入了class的概念。我们都知道javascript从诞生之初就不是基于class的语言，但随着它越来越流行，使用者越来越多的过程中，关于如何用javascript进行面向对象编程(OOP)的理论也在实践中逐渐演化。特别是一些有其他后端语言（诸如java）背景的开发者，会倾向于推行模仿class类型继承的方法。比如汇集了各种jav">
+<meta property="og:updated_time" content="2016-08-08T13:52:37.021Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Javascript永远的Class争论">
+<meta name="twitter:description" content="今年刚定稿的ECMAScript6(以下简称ES6)里，前所未有的引入了class的概念。我们都知道javascript从诞生之初就不是基于class的语言，但随着它越来越流行，使用者越来越多的过程中，关于如何用javascript进行面向对象编程(OOP)的理论也在实践中逐渐演化。特别是一些有其他后端语言（诸如java）背景的开发者，会倾向于推行模仿class类型继承的方法。比如汇集了各种jav">
+    
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style.min.css">
+    <!--STYLES END-->
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Woodpig&#39;s Blog</a>
+    </h1>
+    
+</header>
+            <nav id="sidebar" data-behavior="4">
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archive</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            Javascript永远的Class争论
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Sun Oct 25 2015 23:46:03 GMT+0800">
+	
+		    Oct 25, 2015
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/javascript/">javascript</a>, <a class="category-link" href="/categories/javascript/object-oriented-programming/">object oriented programming</a>
+
+
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>今年刚定稿的ECMAScript6(以下简称ES6)里，前所未有的引入了class的概念。我们都知道javascript从诞生之初就不是基于class的语言，但随着它越来越流行，使用者越来越多的过程中，关于如何用javascript进行面向对象编程(OOP)的理论也在实践中逐渐演化。特别是一些有其他后端语言（诸如java）背景的开发者，会倾向于推行模仿class类型继承的方法。<br>比如汇集了各种javascript语法糖的<a href="http://coffeescript.org/" target="_blank" rel="external">coffeescript</a>，它构造出来的class语法就是一个比较成熟的例子：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span></span></div><div class="line">  constructor: (<span class="meta">@name</span>) -&gt;</div><div class="line"></div><div class="line">  move: (meters) -&gt;</div><div class="line">    alert <span class="meta">@name</span> + <span class="string">" moved #&#123;meters&#125;m."</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> <span class="keyword">extends</span> <span class="title">Animal</span></span></div><div class="line">  move: -&gt;</div><div class="line">    alert <span class="string">"mow..."</span></div><div class="line">    <span class="keyword">super</span> <span class="number">5</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Mice</span> <span class="keyword">extends</span> <span class="title">Animal</span></span></div><div class="line">  move: -&gt;</div><div class="line">    alert <span class="string">"zhizhi..."</span></div><div class="line">    <span class="keyword">super</span> <span class="number">45</span></div><div class="line"></div><div class="line">jerry = <span class="keyword">new</span> <span class="type">Cat</span> <span class="string">"Jerry the Cat"</span></div><div class="line">tom = <span class="keyword">new</span> <span class="type">Mice</span> <span class="string">"Tom the Mice"</span></div><div class="line"></div><div class="line">jerry.move()</div><div class="line">tom.move()</div></pre></td></tr></table></figure>
+<p>编译成ECMAScript5便是<br><figure class="highlight qml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">var</span> Animal, Cat, Mice, jerry, tom,</div><div class="line">  extend = <span class="function"><span class="keyword">function</span>(<span class="params">child, parent</span>) </span>&#123; <span class="keyword">for</span> (<span class="built_in">var</span> key <span class="keyword">in</span> <span class="built_in">parent</span>) &#123; <span class="keyword">if</span> (hasProp.call(<span class="built_in">parent</span>, key)) child[key] = <span class="built_in">parent</span>[key]; &#125; <span class="function"><span class="keyword">function</span> <span class="title">ctor</span>(<span class="params"></span>) </span>&#123; <span class="keyword">this</span>.constructor = child; &#125; ctor.prototype = <span class="built_in">parent</span>.prototype; child.prototype = <span class="keyword">new</span> ctor(); child.__super__ = <span class="built_in">parent</span>.prototype; <span class="keyword">return</span> child; &#125;,</div><div class="line">  hasProp = &#123;&#125;.hasOwnProperty;</div><div class="line"></div><div class="line">Animal = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">Animal</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = name;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  Animal.prototype.move = <span class="function"><span class="keyword">function</span>(<span class="params">meters</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> alert(<span class="keyword">this</span>.name + (<span class="string">" moved "</span> + meters + <span class="string">"m."</span>));</div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> Animal;</div><div class="line"></div><div class="line">&#125;)();</div><div class="line"></div><div class="line">Cat = (<span class="function"><span class="keyword">function</span>(<span class="params">superClass</span>) </span>&#123;</div><div class="line">  extend(Cat, superClass);</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">Cat</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> Cat.__super__.constructor.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  Cat.prototype.move = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    alert(<span class="string">"mow..."</span>);</div><div class="line">    <span class="keyword">return</span> Cat.__super__.move.call(<span class="keyword">this</span>, <span class="number">5</span>);</div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> Cat;</div><div class="line"></div><div class="line">&#125;)(Animal);</div><div class="line"></div><div class="line">Mice = (<span class="function"><span class="keyword">function</span>(<span class="params">superClass</span>) </span>&#123;</div><div class="line">  extend(Mice, superClass);</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">Mice</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> Mice.__super__.constructor.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  Mice.prototype.move = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    alert(<span class="string">"zhizhi..."</span>);</div><div class="line">    <span class="keyword">return</span> Mice.__super__.move.call(<span class="keyword">this</span>, <span class="number">45</span>);</div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> Mice;</div><div class="line"></div><div class="line">&#125;)(Animal);</div><div class="line"></div><div class="line">jerry = <span class="keyword">new</span> Cat(<span class="string">"Jerry the Cat"</span>);</div><div class="line"></div><div class="line">tom = <span class="keyword">new</span> Mice(<span class="string">"Tom the Mice"</span>);</div><div class="line"></div><div class="line">jerry.move();</div><div class="line"></div><div class="line">tom.move();</div></pre></td></tr></table></figure></p>
+<p>从编译结果我们看到这种仿class模式有如下几个特点：</p>
+<ol>
+<li>需要一个constructor function</li>
+<li>必须用new来进行初始化出一个实例来调用方法</li>
+<li>在继承方面要人为制造一个super来指向被继承的class</li>
+</ol>
+<p>ES6中的class语法和coffeescript的封装形式极为相似，以上样例代码用ES6来写就是</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</div><div class="line">  </div><div class="line">  constructor(name) &#123;</div><div class="line">    <span class="keyword">this</span>.name = name;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  move(meters) &#123;</div><div class="line">    <span class="keyword">return</span> alert(<span class="keyword">this</span>.name + <span class="string">"moved"</span> + meters)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> <span class="keyword">extends</span> <span class="title">Animal</span> </span>&#123;</div><div class="line"></div><div class="line">  move(meter) &#123;</div><div class="line">    alert(<span class="string">"mow..."</span>);</div><div class="line">    <span class="keyword">super</span>.move(<span class="number">5</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Mice</span> <span class="keyword">extends</span> <span class="title">Animal</span> </span>&#123;</div><div class="line"></div><div class="line">  move(meter) &#123;</div><div class="line">    alert(<span class="string">"zhizhi..."</span>);</div><div class="line">    <span class="keyword">super</span>.move(<span class="number">45</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> jerry = <span class="keyword">new</span> <span class="type">Cat</span>(<span class="string">"Jerry the Cat"</span>),</div><div class="line"></div><div class="line">tom = <span class="keyword">new</span> <span class="type">Mice</span>(<span class="string">"Tom the Mice"</span>);</div><div class="line"></div><div class="line">jerry.move();</div><div class="line"></div><div class="line">tom.move();</div></pre></td></tr></table></figure>
+<p>在ES6的class定稿之前，js社区中流行的仿class设计模式的目的其实是以它为基础实现oop思想中的继承（inheritance），封装（encapsulation），多态（polymorphism）。尽管现在有官方背书，这种方式也一直存在不小的争议。<br>两年前我曾翻过一遍Douglas Crockford的书<a href="http://shop.oreilly.com/product/9780596517748.do" target="_blank" rel="external">《JavaScript: The Good Parts》</a>，虽然看的似懂非懂，依稀记得Douglas Crockford在书中指出使用new的危害，且推崇Object.create()来代替contructor function。虽然DC是公认的js社区大拿，但他的这方面的观点并未被广泛接受，许多教授javascript编程的书本仍然将contructor function/new形式作为标准的OOP范例。<br>《JavaScript: The Good Parts》出版于2008年，而奇妙的是，作者DC也于早些年提倡在js中模仿基于类继承，比如这篇在2002年发表的博文<a href="http://javascript.crockford.com/inheritance.html" target="_blank" rel="external">classical inheritance in javascript</a>，当然作者在博文末尾有注明14年的js编程经验让他有了新的想法。</p>
+<p>两年前我并没有完全理解DC的深意，直到接触了Eric Elliott的观点。Eric Elliott很鲜明的反对使用constructor function/new，主要原因我总结如下：</p>
+<blockquote>
+<ul>
+<li>类继承(classical inheritance)和原型继承(prototype inheritance)从本质和语法都不一样，即使在js中模仿class继承，背后却还是得利用原型继承的那一套，这样做的js即不能发挥类语言的长处，又失去了js本身的灵活性。</li>
+<li>如果滥用类的继承关系，在复杂的系统中会增加定位bug的在哪一层的难度，如果发现需要修改base class，恐怕所有相关的subclass也需要检查修改。</li>
+<li><p>class的继承与被继承的关系是强耦合，不利于代码模块化，容易导致代码的重复。而且这种关系违背了以下经典的设计原则：<br><strong>针对接口编程，而不是针对实现编程。（program to an interface，not an implementation）</strong><br><strong>多用组合，少用继承。（favor object composition over class inheritance）</strong></p>
+</li>
+<li><p>在ES6标准之前，如果不使用严格模式，做实体化的时候忘记new，js引猩不会报错，但会引入难以察觉的bug（例如赋值给constructor里的this的上的属性变成了全局变量）。<br>[注1]: 这一点缺陷容易规避，作为论据的杀伤力较弱。如可以借助某些js lint工具做语法检查，或者在每个constructor function里都检查是否正确调用，如jQuery作者John Resig提出的方法<a href="http://ejohn.org/apps/learn/#36" target="_blank" rel="external">http://ejohn.org/apps/learn/#36</a></p>
+</li>
+<li><p>在传统的Class语言中，<code>instanceof</code>是用来检查object是否属于同一class的实体。貌似在js中也能用<code>instanceof</code>来检查object是否由同一个constructor function/new得来，但这个并不是100%值得信赖，如以下的例子</p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> <span class="comment">&#123;&#125;</span></span></div><div class="line"><span class="title">var</span> <span class="title">bar</span> = <span class="comment">&#123; a: ‘a’&#125;</span>;</div><div class="line">foo.prototype = bar;</div><div class="line">baz = <span class="keyword">Object</span>.create(bar);</div><div class="line">baz instanceof foo <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<p>由此’instanceof’不能算是模仿class方式的优势之一，如果js开发者需要类似类型检查的功能，<code>duck typing</code>是更好的选择。</p>
+</li>
+</ul>
+</blockquote>
+<p>综述了各种class继承的不靠谱后，Eric Elliott推荐用factory function取代constructor来做对象的初始化，例如之前的例子可以写成</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> animalProto = &#123;</div><div class="line">  name: <span class="string">'animal'</span>,</div><div class="line">  move: <span class="function"><span class="keyword">function</span>(<span class="params">meters</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> alert(<span class="keyword">this</span>.name + <span class="string">"moved"</span> + meters);</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">var</span> catFactory = <span class="function"><span class="keyword">function</span> <span class="title">catFactory</span> (<span class="params">name</span>) </span>&#123;</div><div class="line">	<span class="comment">// 这里的_extend()是underscorejs里的方法，</span></div><div class="line">	<span class="comment">// 也可以用jQuey里的$.extend()代替,</span></div><div class="line">	<span class="comment">// 或者用ES6的Object.assign()</span></div><div class="line">  <span class="keyword">return</span> _.extend(<span class="built_in">Object</span>.create(animalProto), &#123;</div><div class="line">    name: name || animalProto.name,</div><div class="line">    animalType: <span class="string">'cat'</span>,</div><div class="line">    move: <span class="function"><span class="keyword">function</span>(<span class="params">meters</span>) </span>&#123;</div><div class="line">      alert(<span class="string">"mow..."</span>);</div><div class="line">      animalProto.move.call(<span class="keyword">this</span>,meters);</div><div class="line">    &#125;</div><div class="line">  &#125;)</div><div class="line">&#125;;</div><div class="line"><span class="keyword">var</span> miceFactory = <span class="function"><span class="keyword">function</span> <span class="title">miceFactory</span> (<span class="params">name</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> _.extend(<span class="built_in">Object</span>.create(animalProto), &#123;</div><div class="line">    name: name || animalProto.name,</div><div class="line">    animalType: <span class="string">'mice'</span>,</div><div class="line">    move: <span class="function"><span class="keyword">function</span>(<span class="params">meters</span>) </span>&#123;</div><div class="line">      alert(<span class="string">"zhizhi..."</span>);</div><div class="line">      animalProto.move.call(<span class="keyword">this</span>,meters);</div><div class="line">    &#125;</div><div class="line">  &#125;)</div><div class="line">&#125;;</div><div class="line"><span class="keyword">var</span> jerry = catFactory(<span class="string">"jerry"</span>);</div><div class="line"><span class="keyword">var</span> tom = miceFactory(<span class="string">"tom"</span>);</div></pre></td></tr></table></figure>
+<p>在以上例子中，<code>Object.create(animalProto)</code>的工作是将一个指定实例对象设置为另一个实例的原型并返回这个实例对象，这部分Eric Elliott叫<code>delegate prototypes</code>，或者用Kyle Simpson在《you dont know js》系列书籍里的叫法<code>OLOO（object linking to other object）</code>，<code>_.extend(）</code>的工作是将一个实例对象的属性复制到一个新实例对象，这部分被他命名为<code>concatenative inheritance</code>。</p>
+<p>一般的js开发者可能感觉到constructor/new仍旧是目前通行的做法，这是事实，但Eric Elliott指出工厂模式在各个影响广泛的js库或者框架中的应用极为普遍：</p>
+<ul>
+<li>jquery的选择器就符合工厂模式的定义；</li>
+<li>reactjs中React.createclass();</li>
+<li>angular中各种factory;</li>
+<li>nodejs的核心库http.createserver()，以及中间件框架express也是运用工厂模式。</li>
+</ul>
+<p>constructor function/new支持者的一个重要论据是js引擎例如v8对new做过优化，用new产生新的实例对象要比Object.create（）快得多。对此Eric认为相关的性能差距并不足以大到成为一个js应用的瓶颈。具体一点说，通常我们用profile工具检查出的性能瓶颈往往在于加载速度，网络条件，文件I/O，渲染速度，先解决那些首要瓶颈后才可能开始考虑new和Object.create()谁快谁慢这种微小优化。而且很多设计实验来测量比较new和object。create快慢的代码需要循环几百，上千次才能看到一点点时间上的差异，这种差异在一般用户的感觉中是微乎其微的。</p>
+<p>根据Eric Elliott的自述，他和许多js用户一样，最初的编程生涯来自于c＋＋，java，即使是拥有这些天生支持class语言的开发背景，再转到js，做了无数个项目后体验到class继承思想种种弊病，才开始鼓吹剔除class概念，拥抱更简单优雅，更能发挥js灵活性的编程方式。只不过按照目前的趋势，他代表的这部分的人观点尚未被js社区广泛接受，毕竟new/constructor function或者说ES6的class和诸多js的“坑”是官方支持的语言功能，可以预见的是，未来十年内，仍旧会有许多new/constructor VS class的优劣争论。</p>
+<p>相关参考：</p>
+<ol>
+<li><a href="http://ericleads.com/2013/02/fluent-javascript-three-different-kinds-of-prototypal-oo/" target="_blank" rel="external">Fluent JavaScript – Three Different Kinds Of Prototypal OO</a></li>
+<li><a href="https://medium.com/javascript-scene/common-misconceptions-about-inheritance-in-javascript-d5d9bab29b0a#.vxbi3ue2l" target="_blank" rel="external">Common Misconceptions About Inheritance in JavaScript</a></li>
+</ol>
+<p>本文只是尝试在反class的角度做一个小的总结，个人推荐Kyle Simpson的著作<a href="https://github.com/getify/You-Dont-Know-JS/tree/master/this%20&amp;%20object%20prototypes" target="_blank" rel="external">You Dont Know JS this and Object Prototypes</a>，他在书中对js模仿class设计的编程方式的弊病有更详细的实例分析。</p>
+
+            
+                
+
+            
+        </div>
+    </div>
+    <div class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/class-inheritance/">class inheritance</a> <a class="tag tag--primary tag--small t-link" href="/tags/javascript/">javascript</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/12/20/what-it-takes-to-optimize-an-old-project/"  data-tooltip="老项目的优化">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/09/28/a-tip-on-optimizing-scroll-or-resize-event/" data-tooltip="优化scroll, resize事件的小方法">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://woodpig07.github.io/2015/10/25/the-never-ending-Class-debate-in-Javascript/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://woodpig07.github.io/2015/10/25/the-never-ending-Class-debate-in-Javascript/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://woodpig07.github.io/2015/10/25/the-never-ending-Class-debate-in-Javascript/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 Kate Wu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/12/20/what-it-takes-to-optimize-an-old-project/"  data-tooltip="老项目的优化">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/09/28/a-tip-on-optimizing-scroll-or-resize-event/" data-tooltip="优化scroll, resize事件的小方法">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://woodpig07.github.io/2015/10/25/the-never-ending-Class-debate-in-Javascript/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://woodpig07.github.io/2015/10/25/the-never-ending-Class-debate-in-Javascript/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://woodpig07.github.io/2015/10/25/the-never-ending-Class-debate-in-Javascript/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://woodpig07.github.io/2015/10/25/the-never-ending-Class-debate-in-Javascript/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://woodpig07.github.io/2015/10/25/the-never-ending-Class-debate-in-Javascript/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://woodpig07.github.io/2015/10/25/the-never-ending-Class-debate-in-Javascript/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Kate Wu</h4>
+        
+            <h5 id="about-card-bio"><p>author.bio</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </h5>
+        
+        
+    </div>
+</div>
+
+        <div id="cover" style="background-image:url('http://res.cloudinary.com/tranquilpeak-hexo-theme/image/upload/v1438975482/v1.3.0-cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script.min.js"></script>
+<!--SCRIPTS END-->
+
+
+
+</html>

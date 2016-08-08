@@ -1,0 +1,419 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Woodpig&#39;s Blog">
+    <title>老项目的优化 - Woodpig&#39;s Blog</title>
+    <meta name="author" content="Kate Wu">
+    
+    
+    <meta name="description" content="知乎上有一则问答，QQ空间的前端技术水平如何？，题主吐槽一个页面的初始化就加载了114个javascript文件，进而质疑负责前端开发维护的工程师为何不遵循尽量合并请求的性能优化原则。于是下面涌现了各种相关的和不相关的前端人员纷纷解释对于一个历史长达十年的老项目种种妥协做法的历史原因。正好前一阵子尝试过将本司的一个老项目的前端代码优化，其中经历有些许类似之处，在此作个简单回顾。
+背景老项目说老也不">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="老项目的优化">
+<meta property="og:url" content="http://woodpig07.github.io/2015/12/20/what-it-takes-to-optimize-an-old-project/index.html">
+<meta property="og:site_name" content="Woodpig's Blog">
+<meta property="og:description" content="知乎上有一则问答，QQ空间的前端技术水平如何？，题主吐槽一个页面的初始化就加载了114个javascript文件，进而质疑负责前端开发维护的工程师为何不遵循尽量合并请求的性能优化原则。于是下面涌现了各种相关的和不相关的前端人员纷纷解释对于一个历史长达十年的老项目种种妥协做法的历史原因。正好前一阵子尝试过将本司的一个老项目的前端代码优化，其中经历有些许类似之处，在此作个简单回顾。
+背景老项目说老也不">
+<meta property="og:updated_time" content="2016-08-08T13:52:36.997Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="老项目的优化">
+<meta name="twitter:description" content="知乎上有一则问答，QQ空间的前端技术水平如何？，题主吐槽一个页面的初始化就加载了114个javascript文件，进而质疑负责前端开发维护的工程师为何不遵循尽量合并请求的性能优化原则。于是下面涌现了各种相关的和不相关的前端人员纷纷解释对于一个历史长达十年的老项目种种妥协做法的历史原因。正好前一阵子尝试过将本司的一个老项目的前端代码优化，其中经历有些许类似之处，在此作个简单回顾。
+背景老项目说老也不">
+    
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style.min.css">
+    <!--STYLES END-->
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Woodpig&#39;s Blog</a>
+    </h1>
+    
+</header>
+            <nav id="sidebar" data-behavior="4">
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archive</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            老项目的优化
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Sun Dec 20 2015 17:33:51 GMT+0800">
+	
+		    Dec 20, 2015
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/frontend/">frontend</a>, <a class="category-link" href="/categories/frontend/project-management/">project management</a>
+
+
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>知乎上有一则问答，<a href="http://www.zhihu.com/question/37905339" target="_blank" rel="external">QQ空间的前端技术水平如何？</a>，题主吐槽一个页面的初始化就<code>加载了114个javascript文件</code>，进而质疑负责前端开发维护的工程师为何不遵循<code>尽量合并请求</code>的性能优化原则。于是下面涌现了各种相关的和不相关的前端人员纷纷解释对于一个历史长达十年的老项目种种妥协做法的历史原因。<br>正好前一阵子尝试过将本司的一个老项目的前端代码优化，其中经历有些许类似之处，在此作个简单回顾。</p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>老项目说老也不算太老，从第一版来算已经有两年多，我是从第二版开发之初（也就是一年多以前）加入这个项目。那个时候改版的目的除了大量的外观设计上需求改动，另外还增加在线预订下单的功能，加上大部分前后端开发成员都是新加入项目不久，大家都决定将代码回炉重造。即便如此，前端这边仍旧保留了一部分旧的功能模块，而且它们还依赖于几个只能用componentjs管理的第三方js库。<br>componentjs作为上一代包管理工具，它比稍后才流行于前端业界的bower还多了一个模块化的范式，这里的模块化类似于commonjs，但每个模块会有自己的<code>component.json</code>文件来帮助下载并编译依赖模块。这部分代码在最开始独立打包压缩出js,css文件后便放置不动了。<br>新代码的第三方包管理工具采用bower, 下载的文件用<code>&lt;script&gt;</code>在页面上一个个分别引用。<br>然后我们自己写的模块放在某个目录下，模块文件之间互有依赖关系，按理说可以考虑用require.js或者sea.js等工具来管理，但因为当时拼命赶进度，加上后端也需要写部分js来调用前端的模块，前端就放弃这块的优化工作，直接将各个模块暴露为全局变量，按照依赖循序一个个在页面引用加载。</p>
+<p>大致的前端项目结构简图如下，其中modules那部分文件接近20个，外部依赖10来个，这些还不算后端加的一坨其他。。。<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div></pre></td><td class="code"><pre><div class="line">.</div><div class="line">├── README<span class="selector-class">.md</span></div><div class="line">├── bower<span class="selector-class">.json</span></div><div class="line">├── bower_components</div><div class="line">│   ├── ...</div><div class="line">├── component<span class="selector-class">.json</span></div><div class="line">├── components</div><div class="line">│   ├── ...</div><div class="line">├── gulpfile<span class="selector-class">.js</span></div><div class="line">├── package<span class="selector-class">.json</span></div><div class="line">├── site</div><div class="line">│   ├── static</div><div class="line">│   │   ├── css</div><div class="line">│   │   │   ├── component<span class="selector-class">.css</span></div><div class="line">│   │   │   ├── component<span class="selector-class">.min</span><span class="selector-class">.css</span></div><div class="line">│   │   │   ├── index<span class="selector-class">.css</span></div><div class="line">│   │   │   ├── index<span class="selector-class">.min</span><span class="selector-class">.css</span></div><div class="line">│   │   │   └── pages</div><div class="line">│   │   │       ├── page1<span class="selector-class">.css</span></div><div class="line">│   │   │       ├── page2<span class="selector-class">.css</span></div><div class="line">│   │   │       ├── page3<span class="selector-class">.css</span></div><div class="line">│   │   │       ├── ...</div><div class="line">│   │   ├── <span class="selector-tag">img</span></div><div class="line">│   │   │   ├── ...</div><div class="line">│   │   ├── js</div><div class="line">│   │   │   ├── component<span class="selector-class">.js</span></div><div class="line">│   │   │   ├── component<span class="selector-class">.min</span><span class="selector-class">.js</span></div><div class="line">│   │   │   ├── main<span class="selector-class">.js</span></div><div class="line">│   │   │   ├── main<span class="selector-class">.min</span><span class="selector-class">.js</span></div><div class="line">│   │   │   ├── modules</div><div class="line">│   │   │   │   ├── mod1</div><div class="line">│   │   │   │   │   └── mod1<span class="selector-class">.js</span></div><div class="line">│   │   │   │   ├── mod2</div><div class="line">│   │   │   │   │   └── mod2<span class="selector-class">.js</span></div><div class="line">│   │   │   │   ├── mod3</div><div class="line">│   │   │   │   │   └── mod3<span class="selector-class">.js</span></div><div class="line">│   │   │   ├── pages</div><div class="line">│   │   │   │   ├── page1<span class="selector-class">.js</span></div><div class="line">│   │   │   │   ├── page2<span class="selector-class">.js</span></div><div class="line">│   │   │   │   ├── page3<span class="selector-class">.js</span></div><div class="line">│   │   │   └── vendor</div><div class="line">│   │   │       ├── ...</div><div class="line">│   ├── page1<span class="selector-class">.html</span></div><div class="line">│   ├── page2<span class="selector-class">.html</span></div><div class="line">│   ├── page3<span class="selector-class">.html</span></div><div class="line">│   │── ...</div><div class="line">├── source</div><div class="line">│   ├── coffee</div><div class="line">│   │   └── main<span class="selector-class">.coffee</span></div><div class="line">│   ├── jade</div><div class="line">│   │   ├── base</div><div class="line">│   │   │   ├── <span class="selector-tag">footer</span><span class="selector-class">.jade</span></div><div class="line">│   │   │   ├── <span class="selector-tag">header</span><span class="selector-class">.jade</span></div><div class="line">│   │   │   ├── layout<span class="selector-class">.jade</span></div><div class="line">│   │   ├── inc</div><div class="line">│   │   │   ├── mixins</div><div class="line">│   │   │   ├── scripts<span class="selector-class">.jade</span></div><div class="line">│   │   │   ├── stylesheets<span class="selector-class">.jade</span></div><div class="line">│   │   │   └── variables<span class="selector-class">.jade</span></div><div class="line">│   │   ├── pages</div><div class="line">│   │   │   ├── page1</div><div class="line">│   │   │   │   ├── page1<span class="selector-class">.coffee</span></div><div class="line">│   │   │   │   ├── page1<span class="selector-class">.jade</span></div><div class="line">│   │   │   │   └── page1<span class="selector-class">.styl</span></div><div class="line">│   │   │   ├── page2</div><div class="line">│   │   │   │   ├── page2<span class="selector-class">.coffee</span></div><div class="line">│   │   │   │   ├── page2<span class="selector-class">.jade</span></div><div class="line">│   │   │   │   └── page2<span class="selector-class">.styl</span></div><div class="line">│   │   │   ├── page3</div><div class="line">│   │   │   │   ├── page3<span class="selector-class">.coffee</span></div><div class="line">│   │   │   │   ├── page3<span class="selector-class">.styl</span></div><div class="line">│   │   │   │   └── page3<span class="selector-class">.jade</span></div><div class="line">│   │   │   ├── ...</div><div class="line">│   ├── modules</div><div class="line">│   │   ├── mod1</div><div class="line">│   │   │   └── mod1<span class="selector-class">.coffee</span></div><div class="line">│   │   ├── mod2</div><div class="line">│   │   │   ├── mod2<span class="selector-class">.coffee</span></div><div class="line">│   │   │   ├── mod2<span class="selector-class">.jade</span></div><div class="line">│   │   │   └── mod2<span class="selector-class">.styl</span></div><div class="line">│   │   ├── mod3</div><div class="line">│   │   │   └── mod3<span class="selector-class">.coffee</span></div><div class="line">│   │   ├── ...</div><div class="line">│   └── stylus</div><div class="line">│       ├── base</div><div class="line">│       │   ├── ...</div><div class="line">│       ├── index<span class="selector-class">.styl</span></div><div class="line">│       ├── inc</div><div class="line">│       │   ├── ...</div><div class="line">│       └── <span class="selector-tag">section</span></div><div class="line">│           ├── ...</div></pre></td></tr></table></figure></p>
+<p>看到这里恐怕许多同行们要吐槽了，那么多js文件，要一个一个引用加载，还得手动维护依赖，坑爹啊！！<br>没办法，当时水平有限时间有限精力有限，而且项目上线后客户也不愿意额外付钱让我们继续优化啊（揍～）</p>
+<p>此后的一年多里，我也是有一搭没一搭作一点维护工作。而同时在其它后来开始的新项目里，使用基于npm, browserfy的模块化管理给我带来极大的便捷，加上看了几篇<a href="http://webpack.github.io/" target="_blank" rel="external">webpack</a>的安利文章，我突然对用新工具极速改造优化旧工程产生了极大的信心。<br>改造的目的无非是针对我在上文里提到的几处缺陷：</p>
+<ul>
+<li>统一新老代码模块化的方式。</li>
+<li>借助工具优雅的管理模块依赖。</li>
+<li>自动打包合并代码，即使做不到一次打包所有，至少做到分开项目代码和第三方库的两个包。</li>
+</ul>
+<p>所谓极速改造，包括以下几个条件：</p>
+<ul>
+<li>对旧有模块的代码修改量最少</li>
+<li>不需要改动第三方库的代码（比如说强行改源代码来支持commonjs/amd/umd)</li>
+<li>折腾的时间最少（因为这不是工作计划内的需求，只能利用一些零碎时间实验我的方案）</li>
+</ul>
+<h2 id="走起"><a href="#走起" class="headerlink" title="走起"></a>走起</h2><h3 id="Bower"><a href="#Bower" class="headerlink" title="Bower"></a>Bower</h3><p>我挑了个自以为容易入手的方面作为改造的第一步：将Bower管理的第三方库整合到npm。<br>Bower曾经是流行一时的前端包管理工具，只不过近年来越来越被npm抢了风头。<a href="https://github.com/bower/bower/pull/1748#issuecomment-150104311" target="_blank" rel="external">最近还被曝出Bower的开发项目背后并无稳定资金来源支撑，核心开发人员仅为一人，而且能无偿贡献出的开发时间精力十分有限</a>。大家纷纷感到Bower离完全被npm取代寿终正寝的时日不远了。。。因此尽早把项目流程中有关Bower的部分完全迁移到npm也应是合理之举。<br>尽管许多流行的前端库或者是框架支持使用npm下载安装，但是！！这种做法的前提是必须符合npm里<a href="https://docs.npmjs.com/cli/install#description" target="_blank" rel="external">package的定义</a>，简而言之就是必须有一个合格的package.json文件。而这里的项目bower.json列出的三方库里有几个只是列出文件下载的链接，bower可以直接从url下载，npm却不能。好吧，bower.json这部分我暂且不动，去看component.json</p>
+<h3 id="Componentjs"><a href="#Componentjs" class="headerlink" title="Componentjs"></a>Componentjs</h3><p><a href="https://github.com/componentjs/component" target="_blank" rel="external">Componentjs</a>的历史和bower的差不多都可以追溯到2012年，但它的名气远不及后者，就连原作者也于今年年中在github上声明已经放弃了维护，直接推荐用webpack，jspm，browserify取代。<br>我对Componentjs的理解是，它是前端库的包管理器+component化管理+commonjs前端实现+build工具的奇怪混合，其实这四个方面都是前端工程化的热点，只可惜componentjs的做法在这四个方面的影响力都不足以打败同类工具，落得今天的境地也不足为奇。<br>如前文所说，关联到componentjs的这部分代码是从老项目第一版继承下来的，之所以改版之初没有重写这些模块，就是因为这些模块的功能较为复杂，而且依赖其他的遵循componentjs形式的库太多，改写起来工作量大。<br>一年后回头来看，既然componentjs的模块也符合commonjs模式，可否利用browserify, webpack这种支持commonjs的工具直接或者在此基础上的某插件整合？<br>browserify马上被我否决了，原因是browerify需要每一个依赖库都有一个合格的package.json（可以用npm安装），或者是模块逐个逐个作为shim设置。这里实际的工作量可不小，例如component.json列出的某个依赖<code>&quot;component-pro/tip&quot;: &quot;2.0.0&quot;</code>，我数了下，它背后的依赖模块就有20多个…<br>至于webpack，令人惊喜的是它的官方文档列出了和componentjs相配合的插件<a href="https://github.com/webpack/component-webpack-plugin" target="_blank" rel="external">component-webpack-plugin</a>。不过，按照官方<a href="https://github.com/webpack/webpack/tree/master/examples/component" target="_blank" rel="external">实例</a>上手一用，尽是模块无法解析之类的错误：<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Module not <span class="string">found:</span> <span class="string">Error:</span> Cannot resolve module <span class="string">'tip'</span> <span class="keyword">in</span> <span class="regexp">/xxxx/</span>xxxx</div></pre></td></tr></table></figure></p>
+<p>细细看插件源码，才发现至少两个大问题：</p>
+<ol>
+<li>插件是两年前开发，后来componentjs升级，安装的模块路径有改动，插件原有的路径解析方式不再适用。<br>某个开发者提交的<a href="https://github.com/webpack/component-webpack-plugin/pull/6" target="_blank" rel="external">pull requrest</a>有详细的问题说明和解决方法。</li>
+<li>插件是从各个模块js脚本里读取require的模块信息并试图解析路径，如果脚本文件里的模块名和component.json里的有差异，插件就无法对其正确的解析。<br>例如<a href="https://github.com/component/to-function" target="_blank" rel="external"><code>component/to-function</code></a>里<a href="https://github.com/component/to-function/commits/master/index.js" target="_blank" rel="external"><code>index.js</code></a>有一段定义依赖的代码，为了向后兼容老的命名，写成：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> expr;</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">expr = <span class="built_in">require</span>(<span class="string">'props'</span>);</div><div class="line">&#125; <span class="keyword">catch</span>(e) &#123;</div><div class="line">expr = <span class="built_in">require</span>(<span class="string">'component-props'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>componentjs本身只会按照模块本身component.json列出的依赖下载安装，然后在build过程中会自动识别哪个是能解析的模块，所以最后这段会改写成<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> expr;</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">  expr = <span class="built_in">require</span>(<span class="string">'component~props@1.1.2'</span>);</div><div class="line">&#125; <span class="keyword">catch</span>(e) &#123;</div><div class="line">  expr = <span class="built_in">require</span>(<span class="string">'component~props@1.1.2'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>遗憾的是component-webpack-plugin从诞生之后就没能跟上componentjs的演化步伐。一年前某个维护人员曾经<a href="https://github.com/webpack/component-webpack-plugin/issues/5" target="_blank" rel="external">提议提出要改写插件读取模块名字的方式</a>，但后来也不了了之。这件事也从侧面说明，生辟小众的开源工具能吸引到的开发力量非常之少，往往无法与时俱进。</p>
+<h3 id="剩下的工作"><a href="#剩下的工作" class="headerlink" title="剩下的工作"></a>剩下的工作</h3><p>以上罗嗦了那么多，总结起来也就四个字：无功而返。接下来我只能做一些技术上无甚悬念的工作来挽回一些颜面了。</p>
+<p>如果你之前的代码不会与某些模块化管理工具强耦合，改写起来十分容易。个人偏爱commonjs的简洁，这样的话对于<code>source/modules/</code>文件夹里每个模块基本上就只需多加一行代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">module</span>.<span class="keyword">exports</span> = mod1</div></pre></td></tr></table></figure></p>
+<p>然后在<code>source/coffee/main.coffee</code>文件里一一声明<br><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 如果需要在页面上引用模块，可暴露为全局变量</span></div><div class="line"><span class="built_in">window</span>.mod1 = mod1 = <span class="built_in">require</span> <span class="string">"../modules/mod1/mod1.coffee"</span></div></pre></td></tr></table></figure></p>
+<p>目前项目用gulp作为自动化流程工具，与webpack结合使用十分方便（也可以用browserify替代）：<br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> gulpWebpack = <span class="built_in">require</span>(<span class="string">'webpack-stream'</span>)；</div><div class="line">gulp.src(<span class="string">'source/coffee/main.coffee'</span>)</div><div class="line">      .pipe(gulpWebpack(&#123;</div><div class="line">        <span class="keyword">module</span>: &#123;</div><div class="line">          loaders: [</div><div class="line">            &#123;test: <span class="regexp">/\.coffee$/</span>, loader: <span class="string">"coffee-loader"</span> &#125;,</div><div class="line">          ],</div><div class="line">        &#125;,</div><div class="line">        output: &#123;</div><div class="line">          path: path.join(__dirname, <span class="string">"site/static/js"</span>),</div><div class="line">          filename: <span class="string">'main.js'</span></div><div class="line">        &#125;,</div><div class="line"></div><div class="line">      &#125;))</div><div class="line">      .pipe(gulp.dest(buildPath + <span class="string">'js/'</span>));</div><div class="line">  &#125;);</div></pre></td></tr></table></figure></p>
+<p>上面的代码负责通过入口文件<code>main.coffee</code>把<code>modules/</code>文件夹下近20个coffee模块打包到了一个文件。</p>
+<p>我还可以用<code>gulp-concat</code>把bower.json里列出的第三方依赖打包在一起，因为其中几个库之间互有依赖关系，所以要稍微手动控制一下文件的先后顺序。这样做的代价是每个页面都必须引用这一个打包后的文件，而不是像过去那样每个页面上只引用必须用到的库。不过比起过去每个页面上N多个http请求数和不得不分别维护每个页面上的第三方库依赖，权衡改动后的代价和进步还是能够算得上微小的优化的。</p>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>写到这里，大家恐怕也看得出来，我这篇文章与其是在分享技术，不如说是举例说明优化一个老项目的种种困难障碍。<br>在前端技术日新月异的年代，过一段时间以新标准看旧代码，往往会觉得旧的东西貌似有巨大的优化空间。而实际上跨越新旧工具的路并不如开始想象的那样通畅，很多时候为了达到改进的目的要花费的努力不亚于重写项目，特别是诸如像知乎问题里的历史长久的项目，还要面临接手人员不是最开始的开发人员的各种历史包袱。但作为开发人员，即使对现实作出种种妥协，时不时思考一下改造提升老项目的可能性还是受益匪浅的，明白过去在架构和技术选型上的种种缺陷，才能在新的项目中写出future proof的代码。</p>
+
+            
+                
+
+            
+        </div>
+    </div>
+    <div class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/frontend/">frontend</a> <a class="tag tag--primary tag--small t-link" href="/tags/webflow/">webflow</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/08/08/taking-a-peek-at-functional-programming-with-redux/"  data-tooltip="从Redux一窥函数式编程">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/10/25/the-never-ending-Class-debate-in-Javascript/" data-tooltip="Javascript永远的Class争论">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://woodpig07.github.io/2015/12/20/what-it-takes-to-optimize-an-old-project/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://woodpig07.github.io/2015/12/20/what-it-takes-to-optimize-an-old-project/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://woodpig07.github.io/2015/12/20/what-it-takes-to-optimize-an-old-project/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 Kate Wu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/08/08/taking-a-peek-at-functional-programming-with-redux/"  data-tooltip="从Redux一窥函数式编程">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/10/25/the-never-ending-Class-debate-in-Javascript/" data-tooltip="Javascript永远的Class争论">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://woodpig07.github.io/2015/12/20/what-it-takes-to-optimize-an-old-project/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://woodpig07.github.io/2015/12/20/what-it-takes-to-optimize-an-old-project/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://woodpig07.github.io/2015/12/20/what-it-takes-to-optimize-an-old-project/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://woodpig07.github.io/2015/12/20/what-it-takes-to-optimize-an-old-project/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://woodpig07.github.io/2015/12/20/what-it-takes-to-optimize-an-old-project/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://woodpig07.github.io/2015/12/20/what-it-takes-to-optimize-an-old-project/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Kate Wu</h4>
+        
+            <h5 id="about-card-bio"><p>author.bio</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </h5>
+        
+        
+    </div>
+</div>
+
+        <div id="cover" style="background-image:url('http://res.cloudinary.com/tranquilpeak-hexo-theme/image/upload/v1438975482/v1.3.0-cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script.min.js"></script>
+<!--SCRIPTS END-->
+
+
+
+</html>
