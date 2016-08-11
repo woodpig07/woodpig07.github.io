@@ -10,6 +10,8 @@
     <meta name="author" content="Kate Wu">
     
     
+        <link rel="alternative" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
     <meta name="description" content="这阵子在看Reactjs，正好之前有个电商项目的经历，我就想何不即学即用，用react去实现在线商城展示，分类查找筛选，加入购物车功能。这篇博文写出来的时候，项目的主要部分已经完成，放在github上，欢迎大家参观。
 准备知识一般建议从官方文档开始。facebook建立react的官网，貌似提供无比详尽的资料，不过大部分官方技术文档的特性之一就是，各知识点的组织方式并不一定适合初学者上手。如果你翻">
 <meta property="og:type" content="blog">
@@ -18,7 +20,7 @@
 <meta property="og:site_name" content="Woodpig's Blog">
 <meta property="og:description" content="这阵子在看Reactjs，正好之前有个电商项目的经历，我就想何不即学即用，用react去实现在线商城展示，分类查找筛选，加入购物车功能。这篇博文写出来的时候，项目的主要部分已经完成，放在github上，欢迎大家参观。
 准备知识一般建议从官方文档开始。facebook建立react的官网，貌似提供无比详尽的资料，不过大部分官方技术文档的特性之一就是，各知识点的组织方式并不一定适合初学者上手。如果你翻">
-<meta property="og:updated_time" content="2016-08-08T13:52:37.021Z">
+<meta property="og:updated_time" content="2016-08-11T15:16:00.394Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用React实现一个在线商城，小结（1）">
 <meta name="twitter:description" content="这阵子在看Reactjs，正好之前有个电商项目的经历，我就想何不即学即用，用react去实现在线商城展示，分类查找筛选，加入购物车功能。这篇博文写出来的时候，项目的主要部分已经完成，放在github上，欢迎大家参观。
@@ -204,7 +206,7 @@
 <p>其中的main是brand collection,product details的父级container，在这一块需要指定一个router内容变换的区域，就是所谓的routehandler。例如：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Main = React<span class="selector-class">.createClass</span></div><div class="line"></div><div class="line">  getDefaultProps: -&gt;</div><div class="line">    pageID: <span class="string">"brand-collection"</span></div><div class="line"></div><div class="line">  render: -&gt; </div><div class="line">    return  &lt;<span class="selector-tag">div</span> className=<span class="string">"page"</span> id=&#123;this<span class="selector-class">.props</span><span class="selector-class">.pageID</span>&#125;&gt;</div><div class="line"></div><div class="line">                &lt;RouteHandler /&gt;</div><div class="line"></div><div class="line">              &lt;/div&gt;</div><div class="line">            &lt;/div&gt;</div></pre></td></tr></table></figure></p>
 <p>值得一提的是，我需要在分页变化时候，为了配合原有的样式，main这一层级元素的id也需要随着变化，react-router虽然提供了分页的路径参数，但传递自定义参数并不是很方便。最后我只能根据路径参数的变化来判断需要传递的id，并以react component props的形式传递。</p>
 <hr>
-<p>下文 <a href="/2015/08/29/%E7%94%A8React%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%9C%A8%E7%BA%BF%E5%95%86%E5%9F%8E%EF%BC%8C%E5%B0%8F%E7%BB%93%EF%BC%882%EF%BC%89/">用React实现一个在线商城，小结（1）</a></p>
+<p>下文 <a href="/2015/08/29/implementing-an-online-store-with-Reactjs-summary-2/">用React实现一个在线商城，小结（1）</a></p>
 
             
                 
@@ -263,12 +265,6 @@
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
-        
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#disqus_thread">
-                    <i class="fa fa-comment-o"></i>
-                </a>
-            </li>
         
         <li class="post-action">
             
@@ -338,12 +334,6 @@
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
-        
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#disqus_thread">
-                    <i class="fa fa-comment-o"></i>
-                </a>
-            </li>
         
         <li class="post-action">
             

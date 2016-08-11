@@ -10,6 +10,8 @@
     <meta name="author" content="Kate Wu">
     
     
+        <link rel="alternative" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
     <meta name="description" content="接上用React实现一个在线商城，小结（1）
 
 新手需要趟过的坑即使是刚开始照着各种例子教程上手reactjs，不可避免的都遇到以数组来动态渲染child component，以下这个例子截取自facebook官方tutorial1234567891011121314151617// tutorial10.jsvar CommentList = React.createClass(&amp;#123;">
@@ -21,7 +23,7 @@
 
 新手需要趟过的坑即使是刚开始照着各种例子教程上手reactjs，不可避免的都遇到以数组来动态渲染child component，以下这个例子截取自facebook官方tutorial1234567891011121314151617// tutorial10.jsvar CommentList = React.createClass(&amp;#123;">
 <meta property="og:image" content="http://woodpig07.github.io/project_image1.png">
-<meta property="og:updated_time" content="2016-08-08T13:52:36.929Z">
+<meta property="og:updated_time" content="2016-08-11T15:16:31.030Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用React实现一个在线商城，小结（2）">
 <meta name="twitter:description" content="接上用React实现一个在线商城，小结（1）
@@ -186,7 +188,7 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>接上<a href="/2015/08/29/implementing-a-online-store-with-Reactjs/">用React实现一个在线商城，小结（1）</a></p>
+            <p>接上<a href="/2015/08/22/implementing-a-online-store-with-Reactjs/">用React实现一个在线商城，小结（1）</a></p>
 <hr>
 <h2 id="新手需要趟过的坑"><a href="#新手需要趟过的坑" class="headerlink" title="新手需要趟过的坑"></a>新手需要趟过的坑</h2><p>即使是刚开始照着各种例子教程上手reactjs，不可避免的都遇到以数组来动态渲染child component，以下这个例子截取自facebook官方<a href="http://facebook.github.io/react/docs/tutorial.html" target="_blank" rel="external">tutorial</a><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// tutorial10.js</span></div><div class="line"><span class="keyword">var</span> CommentList = React.createClass(&#123;</div><div class="line">  render: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> commentNodes = <span class="keyword">this</span>.props.data.map(<span class="function"><span class="keyword">function</span> (<span class="params">comment</span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> (</div><div class="line">        <span class="xml"><span class="tag">&lt;<span class="name">Comment</span> <span class="attr">author</span>=<span class="string">&#123;comment.author&#125;</span>&gt;</span></span></div><div class="line">          &#123;comment.text&#125;</div><div class="line">        <span class="tag">&lt;/<span class="name">Comment</span>&gt;</span></div><div class="line">      );</div><div class="line">    &#125;);</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">"commentList"</span>&gt;</span></span></div><div class="line">        &#123;commentNodes&#125;</div><div class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
 <p>本项目中运用到这个方法的场景也非常多，例如商品展示区就是把获取到和product list数组在product parent compoent中渲染出来。<br>然而，当你打开你网页的dev tool，你会注意到在console这一栏赫然有一行warning:<br><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Each child <span class="keyword">in</span> <span class="keyword">an</span> array <span class="keyword">or</span> iterator should have <span class="keyword">a</span> unique <span class="string">"key"</span> prop. Check <span class="keyword">the</span> render method <span class="keyword">of</span> &lt;ProductParentComponent&gt;. See <span class="keyword">https</span>://fb.me/react-warning-<span class="built_in">keys</span> <span class="keyword">for</span> more information.</div></pre></td></tr></table></figure></p>
@@ -205,7 +207,7 @@
 <p>在其parent component里这个RefineGroup是这么写的：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">RefineGroup</span> <span class="attr">items</span>=<span class="string">&#123;items&#125;</span></span></div><div class="line">  <span class="attr">selectedRefiners</span>=<span class="string">&#123;this.state.selectedRefiners&#125;</span></div><div class="line">  <span class="attr">category</span>=<span class="string">&#123;prop&#125;</span></div><div class="line">  <span class="attr">categoryID</span>=<span class="string">&#123;prop&#125;</span></div><div class="line">  <span class="attr">key</span>=<span class="string">&#123;prop.id&#125;</span></div><div class="line">/&gt;</div></pre></td></tr></table></figure></p>
 <p>你可以看到，RefineGroup从props里拿到items（就是每个label下的标签清单）后，在render之前通过调用getInitialState()赋值给state.itemList，然后在render方法里用state.itemList来加工出最后要渲染出的内容。<br>马上我发现，只有第一次点击某个商品类别显示的REFINE RESULT里呈现正确的label group，之后点击其他商品类别，即使页面右边的商品list呈现正确的内容，refine label group就不会随着变化，除非你手动F5将页面刷新。这个现象说明要么RefineGroup的re-render没有被触发，要么触发了但发生了意外。<br>为了诊断问题，我在RefineGroup的render方面上加入console.log(this.props.items)，测试表明this.props.items确实是随着商品类别页变化而变化的，并且也会触发re-render，但不re-render不一定会触发getInitialState()，所以@state.itemList的内容不会变化。当然我可以把render方法里的@state.itemList换成@props.items来解决，不过这样一来就不能配合@handleInput()的变化来实现另外一个功能。<br>我在这个地方纠结了一段时间，直到我读到react component life cycle里的一个较少提及的方法componentWillReceiveProps，这个方法会在component接收到新props时候调用，正好是我需要在RefineGroup里定义的：<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">componentWillReceiveProps</span>: -&gt;</div><div class="line">  <span class="variable">@setState</span></div><div class="line">    <span class="attribute">itemList</span>: <span class="variable">@props</span>.items</div></pre></td></tr></table></figure></p>
 <p>短短三行代码，问题优雅的解决了。</p>
-<h2 id="官网某篇文档Props-in-getInitialState-Is-an-Anti-Pattern说在getInitialState-中使用props赋值的危险，除非只是用props来做state属性的初始化。我遇到这个场景正好是一个需要用props在getInitialState-中做状态初始化，又需要和props中对应值同步的例子。"><a href="#官网某篇文档Props-in-getInitialState-Is-an-Anti-Pattern说在getInitialState-中使用props赋值的危险，除非只是用props来做state属性的初始化。我遇到这个场景正好是一个需要用props在getInitialState-中做状态初始化，又需要和props中对应值同步的例子。" class="headerlink" title="官网某篇文档Props in getInitialState Is an Anti-Pattern说在getInitialState()中使用props赋值的危险，除非只是用props来做state属性的初始化。我遇到这个场景正好是一个需要用props在getInitialState()中做状态初始化，又需要和props中对应值同步的例子。"></a>官网某篇文档<a href="https://facebook.github.io/react/tips/props-in-getInitialState-as-anti-pattern.html" target="_blank" rel="external">Props in getInitialState Is an Anti-Pattern</a>说在getInitialState()中使用props赋值的危险，除非只是用props来做state属性的初始化。我遇到这个场景正好是一个需要用props在getInitialState()中做状态初始化，又需要和props中对应值同步的例子。</h2><p>下文 <a href="/2015/08/29/implementing-a-online-store-with-Reactjs-summary-3/">用React实现一个在线商城，小结（3）</a></p>
+<h2 id="官网某篇文档Props-in-getInitialState-Is-an-Anti-Pattern说在getInitialState-中使用props赋值的危险，除非只是用props来做state属性的初始化。我遇到这个场景正好是一个需要用props在getInitialState-中做状态初始化，又需要和props中对应值同步的例子。"><a href="#官网某篇文档Props-in-getInitialState-Is-an-Anti-Pattern说在getInitialState-中使用props赋值的危险，除非只是用props来做state属性的初始化。我遇到这个场景正好是一个需要用props在getInitialState-中做状态初始化，又需要和props中对应值同步的例子。" class="headerlink" title="官网某篇文档Props in getInitialState Is an Anti-Pattern说在getInitialState()中使用props赋值的危险，除非只是用props来做state属性的初始化。我遇到这个场景正好是一个需要用props在getInitialState()中做状态初始化，又需要和props中对应值同步的例子。"></a>官网某篇文档<a href="https://facebook.github.io/react/tips/props-in-getInitialState-as-anti-pattern.html" target="_blank" rel="external">Props in getInitialState Is an Anti-Pattern</a>说在getInitialState()中使用props赋值的危险，除非只是用props来做state属性的初始化。我遇到这个场景正好是一个需要用props在getInitialState()中做状态初始化，又需要和props中对应值同步的例子。</h2><p>下文 <a href="/2015/09/03/implementing-a-online-store-with-Reactjs-summary-3/">用React实现一个在线商城，小结（3）</a></p>
 
             
                 
@@ -264,12 +266,6 @@
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
-        
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#disqus_thread">
-                    <i class="fa fa-comment-o"></i>
-                </a>
-            </li>
         
         <li class="post-action">
             
@@ -339,12 +335,6 @@
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
-        
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#disqus_thread">
-                    <i class="fa fa-comment-o"></i>
-                </a>
-            </li>
         
         <li class="post-action">
             

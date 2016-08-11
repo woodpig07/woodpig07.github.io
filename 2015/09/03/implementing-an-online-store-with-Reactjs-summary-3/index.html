@@ -10,6 +10,8 @@
     <meta name="author" content="Kate Wu">
     
     
+        <link rel="alternative" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
     <meta name="description" content="接上用React实现一个在线商城，小结（2）
 
 继续说坑的事在掌握React component基本思路，理清flux架构，趟过之前提到的两个坑后，开发出商品展示，排序，筛选后，继续开发购物清单的增加和删改就是效率很高的事。到了业务逻辑开发工作基本完成的阶段，我开始考虑如何在React里使用动画效果。React官方提供了使用CSS3动画的addon - ReactCSSTransitionGrou">
@@ -20,7 +22,7 @@
 <meta property="og:description" content="接上用React实现一个在线商城，小结（2）
 
 继续说坑的事在掌握React component基本思路，理清flux架构，趟过之前提到的两个坑后，开发出商品展示，排序，筛选后，继续开发购物清单的增加和删改就是效率很高的事。到了业务逻辑开发工作基本完成的阶段，我开始考虑如何在React里使用动画效果。React官方提供了使用CSS3动画的addon - ReactCSSTransitionGrou">
-<meta property="og:updated_time" content="2016-08-08T13:52:37.021Z">
+<meta property="og:updated_time" content="2016-08-11T15:18:18.634Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用React实现一个在线商城，小结（3）">
 <meta name="twitter:description" content="接上用React实现一个在线商城，小结（2）
@@ -184,7 +186,7 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>接上<a href="/2015/08/29/implementing-a-online-store-with-Reactjs-summary-2//">用React实现一个在线商城，小结（2）</a></p>
+            <p>接上<a href="/2015/08/29/implementing-an-online-store-with-Reactjs-summary-2/">用React实现一个在线商城，小结（2）</a></p>
 <hr>
 <h2 id="继续说坑的事"><a href="#继续说坑的事" class="headerlink" title="继续说坑的事"></a>继续说坑的事</h2><p>在掌握React component基本思路，理清flux架构，趟过之前提到的两个坑后，开发出商品展示，排序，筛选后，继续开发购物清单的增加和删改就是效率很高的事。到了业务逻辑开发工作基本完成的阶段，我开始考虑如何在React里使用动画效果。<br>React官方提供了使用CSS3动画的addon - <a href="http://facebook.github.io/react/docs/animation.html" target="_blank" rel="external">ReactCSSTransitionGroup</a>,类似与Angularjs的思路，就是给需要动画效果的component加上标识不同状态的CSS class，剩下由开发者填充动画样式代码。<br>按照官网文档给的示例，我把ProductList里的product部分用<code>ReactCSSTransitionGroup</code>包裹起来，而且因为我只需要在筛选list的时候，单个product出现是显示动画，被移除时候无动画，我还加了<code>transitionLeave={false}</code><br><figure class="highlight dust"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="xml"># 部分productList代码</span></div><div class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">"products"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">ReactCSSTransitionGroup</span> <span class="attr">transitionName</span>=<span class="string">"product"</span> <span class="attr">transitionLeave</span>=</span><span class="template-variable">&#123;false&#125;</span><span class="xml"><span class="tag">&gt;</span></span></div><div class="line">              <span class="template-variable">&#123;items&#125;</span><span class="xml"></span></div><div class="line">            <span class="tag">&lt;/<span class="name">ReactCSSTransitionGroup</span>&gt;</span></div><div class="line">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 部分stylus代码</span></div><div class="line"><span class="selector-class">.product-enter</span></div><div class="line">  <span class="attribute">opacity</span>  <span class="number">0</span></div><div class="line">  </div><div class="line">  &amp;<span class="selector-class">.product-enter-active</span></div><div class="line">    <span class="attribute">opacity</span>   <span class="number">1</span></div><div class="line">    <span class="attribute">transition</span>  opacity <span class="number">300ms</span> ease-in</div></pre></td></tr></table></figure>
@@ -257,12 +259,6 @@
             </a>
         </li>
         
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#disqus_thread">
-                    <i class="fa fa-comment-o"></i>
-                </a>
-            </li>
-        
         <li class="post-action">
             
                 <a class="post-action-btn btn btn--default" href="#">
@@ -331,12 +327,6 @@
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
-        
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#disqus_thread">
-                    <i class="fa fa-comment-o"></i>
-                </a>
-            </li>
         
         <li class="post-action">
             

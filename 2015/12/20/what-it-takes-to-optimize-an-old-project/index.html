@@ -10,6 +10,8 @@
     <meta name="author" content="Kate Wu">
     
     
+        <link rel="alternative" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
     <meta name="description" content="知乎上有一则问答，QQ空间的前端技术水平如何？，题主吐槽一个页面的初始化就加载了114个javascript文件，进而质疑负责前端开发维护的工程师为何不遵循尽量合并请求的性能优化原则。于是下面涌现了各种相关的和不相关的前端人员纷纷解释对于一个历史长达十年的老项目种种妥协做法的历史原因。正好前一阵子尝试过将本司的一个老项目的前端代码优化，其中经历有些许类似之处，在此作个简单回顾。
 背景老项目说老也不">
 <meta property="og:type" content="blog">
@@ -18,7 +20,7 @@
 <meta property="og:site_name" content="Woodpig's Blog">
 <meta property="og:description" content="知乎上有一则问答，QQ空间的前端技术水平如何？，题主吐槽一个页面的初始化就加载了114个javascript文件，进而质疑负责前端开发维护的工程师为何不遵循尽量合并请求的性能优化原则。于是下面涌现了各种相关的和不相关的前端人员纷纷解释对于一个历史长达十年的老项目种种妥协做法的历史原因。正好前一阵子尝试过将本司的一个老项目的前端代码优化，其中经历有些许类似之处，在此作个简单回顾。
 背景老项目说老也不">
-<meta property="og:updated_time" content="2016-08-08T13:52:36.997Z">
+<meta property="og:updated_time" content="2016-08-11T15:07:48.642Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="老项目的优化">
 <meta name="twitter:description" content="知乎上有一则问答，QQ空间的前端技术水平如何？，题主吐槽一个页面的初始化就加载了114个javascript文件，进而质疑负责前端开发维护的工程师为何不遵循尽量合并请求的性能优化原则。于是下面涌现了各种相关的和不相关的前端人员纷纷解释对于一个历史长达十年的老项目种种妥协做法的历史原因。正好前一阵子尝试过将本司的一个老项目的前端代码优化，其中经历有些许类似之处，在此作个简单回顾。
@@ -270,12 +272,6 @@
             </a>
         </li>
         
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#disqus_thread">
-                    <i class="fa fa-comment-o"></i>
-                </a>
-            </li>
-        
         <li class="post-action">
             
                 <a class="post-action-btn btn btn--default" href="#">
@@ -344,12 +340,6 @@
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
-        
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#disqus_thread">
-                    <i class="fa fa-comment-o"></i>
-                </a>
-            </li>
         
         <li class="post-action">
             

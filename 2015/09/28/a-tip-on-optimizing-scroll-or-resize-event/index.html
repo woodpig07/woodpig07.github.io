@@ -10,6 +10,8 @@
     <meta name="author" content="Kate Wu">
     
     
+        <link rel="alternative" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
     <meta name="description" content="最近的某个项目中，设计上需要针对页面的scroll和resize事件中加入许多个交互行为。一般来说用户触发的scroll和resize的行为都是持续不断的发生的，如果在此期间直接执行多个绑定在scroll或者resize事件的复杂处理程序，对于浏览器性能是极大的消耗。
 其实很早业界就对此已经有了成熟的应对方案，比如underscorejs的throttle和debounce，但我们想应用的是jQu">
 <meta property="og:type" content="blog">
@@ -18,7 +20,7 @@
 <meta property="og:site_name" content="Woodpig's Blog">
 <meta property="og:description" content="最近的某个项目中，设计上需要针对页面的scroll和resize事件中加入许多个交互行为。一般来说用户触发的scroll和resize的行为都是持续不断的发生的，如果在此期间直接执行多个绑定在scroll或者resize事件的复杂处理程序，对于浏览器性能是极大的消耗。
 其实很早业界就对此已经有了成熟的应对方案，比如underscorejs的throttle和debounce，但我们想应用的是jQu">
-<meta property="og:updated_time" content="2016-08-08T13:52:37.021Z">
+<meta property="og:updated_time" content="2016-08-11T15:12:17.134Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="优化scroll, resize事件的小方法">
 <meta name="twitter:description" content="最近的某个项目中，设计上需要针对页面的scroll和resize事件中加入许多个交互行为。一般来说用户触发的scroll和resize的行为都是持续不断的发生的，如果在此期间直接执行多个绑定在scroll或者resize事件的复杂处理程序，对于浏览器性能是极大的消耗。
@@ -247,12 +249,6 @@
             </a>
         </li>
         
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#disqus_thread">
-                    <i class="fa fa-comment-o"></i>
-                </a>
-            </li>
-        
         <li class="post-action">
             
                 <a class="post-action-btn btn btn--default" href="#">
@@ -321,12 +317,6 @@
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
-        
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#disqus_thread">
-                    <i class="fa fa-comment-o"></i>
-                </a>
-            </li>
         
         <li class="post-action">
             
